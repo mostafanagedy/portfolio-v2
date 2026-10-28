@@ -55,6 +55,72 @@
   flex-direction: column;
 }
 
+.stats-panel__label-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.stats-live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.30);
+  border-radius: var(--radius-full);
+  padding: 1px 5px;
+  line-height: 1;
+}
+
+.stats-live-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #22c55e;
+  box-shadow: 0 0 6px #22c55e;
+  animation: pulseLive 2s infinite ease-in-out;
+}
+
+@keyframes pulseLive {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+}
+
+.stats-panel__item--link {
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--transition);
+}
+
+.stats-panel__item--link:hover {
+  transform: translateY(-2px);
+}
+
+.stats-panel__item--link:hover .stats-panel__icon-box {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 12px rgba(255, 161, 22, 0.4);
+}
+
+.stats-panel__item--link:hover .stats-panel__icon {
+  color: #05090d;
+}
+
+.stats-panel__item--link:hover .stats-panel__val {
+  color: var(--color-primary);
+}
+
 .stats-panel__label {
   font-size: 0.68rem;
   color: var(--color-text-muted);
@@ -68,6 +134,7 @@
   font-weight: 700;
   color: var(--color-text);
   white-space: nowrap;
+  transition: color var(--transition);
 }
 
 /* Slanted script text in warm gold */
@@ -153,10 +220,20 @@
   color: var(--color-text-muted);
 }
 
-[data-theme="light"] .stats-panel__badge {
-  background: rgba(34, 197, 94, 0.12);
-  border-color: rgba(34, 197, 94, 0.35);
+[data-theme="light"] .stats-live-badge {
+  background: rgba(34, 197, 94, 0.14);
+  border-color: rgba(34, 197, 94, 0.40);
   color: #15803d;
+}
+
+[data-theme="light"] .stats-panel__item--link:hover .stats-panel__icon-box {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+}
+
+[data-theme="light"] .stats-panel__item--link:hover .stats-panel__icon {
+  color: #ffffff;
 }
 
 [data-theme="light"] .stats-panel__script {

@@ -1,37 +1,131 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import { Eye, Users, Target } from "lucide-react";
 import "./StatsPanel.css";
 
+interface StatsData {
+  views: number;
+  formattedViews: string;
+  followers: number;
+  formattedFollowers: string;
+  publicRepos: number;
+  formattedRepos: string;
+}
+
 export default function StatsPanel() {
+  const [stats, setStats] = useState<StatsData>({
+    views: 254,
+    formattedViews: "254+",
+    followers: 15,
+    formattedFollowers: "15+",
+    publicRepos: 32,
+    formattedRepos: "32+",
+  });
+  const [displayViews, setDisplayViews] = useState<number>(0);
+  const [displayFollowers, setDisplayFollowers] = useState<number>(0);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function fetchLiveStats() {
+      try {
+        const res = await fetch("/api/stats");
+        if (!res.ok) return;
+        const data: StatsData = await res.json();
+        if (isMounted) {
+          setStats(data);
+          setIsLoaded(true);
+        }
+      } catch (err) {
+        console.error("Failed to load real stats:", err);
+        if (isMounted) setIsLoaded(true);
+      }
+    }
+
+    fetchLiveStats();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Smooth Count-Up Animation when live data is fetched
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    const duration = 1200;
+    const steps = 30;
+    const stepTime = duration / steps;
+    let currentStep = 0;
+
+    const targetViews = stats.views;
+    const targetFollowers = stats.followers;
+
+    const timer = setInterval(() => {
+      currentStep++;
+      const progress = currentStep / steps;
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+
+      setDisplayViews(Math.round(targetViews * eased));
+      setDisplayFollowers(Math.round(targetFollowers * eased));
+
+      if (currentStep >= steps) {
+        setDisplayViews(targetViews);
+        setDisplayFollowers(targetFollowers);
+        clearInterval(timer);
+      }
+    }, stepTime);
+
+    return () => clearInterval(timer);
+  }, [isLoaded, stats.views, stats.followers]);
+
+  const viewCountString = isLoaded ? `${displayViews}+` : stats.formattedViews;
+  const followersCountString = isLoaded ? `${displayFollowers}+` : stats.formattedFollowers;
+
   return (
     <div className="stats-panel" aria-label="Professional stats and availability">
       <div className="stats-panel__card">
         {/* Stats list */}
         <div className="stats-panel__items">
-          {/* Profile Views */}
-          <div className="stats-panel__item">
+          {/* Profile Views (Real Live Visitor Counter) */}
+          <div className="stats-panel__item" title="Live Profile Views Counter">
             <div className="stats-panel__icon-box">
               <Eye size={18} className="stats-panel__icon" />
             </div>
             <div className="stats-panel__text">
-              <span className="stats-panel__label">Profile Views</span>
-              <span className="stats-panel__val">12.4K+</span>
+              <div className="stats-panel__label-row">
+                <span className="stats-panel__label">Profile Views</span>
+                <span className="stats-live-badge">
+                  <span className="stats-live-dot" />
+                  Live
+                </span>
+              </div>
+              <span className="stats-panel__val">{viewCountString}</span>
             </div>
           </div>
 
-          {/* Followers */}
-          <div className="stats-panel__item">
+          {/* GitHub Followers (Real Live Count) */}
+          <a
+            href="https://github.com/mostafanagedy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="stats-panel__item stats-panel__item--link"
+            title="Follow Mostafa on GitHub"
+          >
             <div className="stats-panel__icon-box">
               <Users size={18} className="stats-panel__icon" />
             </div>
             <div className="stats-panel__text">
               <span className="stats-panel__label">Followers</span>
-              <span className="stats-panel__val">1.1K+</span>
+              <span className="stats-panel__val">{followersCountString}</span>
             </div>
-          </div>
+          </a>
 
           {/* Focus */}
-          <div className="stats-panel__item">
+          <div className="stats-panel__item" title="Primary Technical Focus">
             <div className="stats-panel__icon-box">
               <Target size={18} className="stats-panel__icon" />
             </div>
