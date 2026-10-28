@@ -35,3 +35,4 @@ lerna-debug.log*
 
 # Agent artifacts
 .agents/
+*.tsbuildinfo
