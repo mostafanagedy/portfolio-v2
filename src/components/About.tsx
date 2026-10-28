@@ -103,9 +103,17 @@ export default function About() {
 
               <div className="about__portrait-frame">
                 <img
-                  src="/images/mostafa-nagdy.webp"
-                  alt="Mostafa Nagdy — MERN Stack Developer"
-                  className="about__portrait-img"
+                  src="/images/profile-standing-dark.jpg"
+                  alt="Mostafa Nagdy — MERN Stack Developer (Dark Mode)"
+                  className="about__portrait-img about__portrait-img--dark"
+                  loading="lazy"
+                  width="440"
+                  height="520"
+                />
+                <img
+                  src="/images/profile-standing-light.jpg"
+                  alt="Mostafa Nagdy — MERN Stack Developer (Light Mode)"
+                  className="about__portrait-img about__portrait-img--light"
                   loading="lazy"
                   width="440"
                   height="520"

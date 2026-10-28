@@ -247,8 +247,15 @@
   height: 100%;
   object-fit: cover;
   object-position: center top;
-  display: block;
   transition: transform 0.4s ease;
+}
+
+.about__portrait-img--light {
+  display: none !important;
+}
+
+.about__portrait-img--dark {
+  display: block !important;
 }
 
 .about__portrait-frame:hover .about__portrait-img {
@@ -258,6 +265,13 @@
 /* ========================================================
    LIGHT THEME ADAPTATIONS
    ======================================================== */
+[data-theme="light"] .about__portrait-img--light {
+  display: block !important;
+}
+
+[data-theme="light"] .about__portrait-img--dark {
+  display: none !important;
+}
 [data-theme="light"] .about__card {
   background: #FFFFFF;
   border: 1px solid var(--color-border);
