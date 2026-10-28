@@ -1,0 +1,95 @@
+/* ===== SUBTLE BRANDING & FOOTER ===== */
+.footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--color-bg);
+  padding: 6px 0 8px;
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.footer__container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.footer__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer__motto {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  color: var(--color-text-secondary);
+}
+
+.footer__icon-zap {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.footer__arrow {
+  color: var(--color-primary);
+}
+
+.footer__author {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* Informal Signature: Keep Going 👑 */
+.footer__signature {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer__keep-going {
+  font-family: "Brush Script MT", "Caveat", "Segoe Print", cursive, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  transform: rotate(-4deg);
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 12px rgba(255, 161, 22, 0.35);
+}
+
+.footer__crown {
+  font-size: 1.1rem;
+}
+
+@media (max-width: 600px) {
+  .footer__content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .footer__signature {
+    align-self: flex-end;
+  }
+}
+
+/* ===== LIGHT THEME ADAPTATIONS ===== */
+[data-theme="light"] .footer {
+  border-top: 1px solid var(--color-border);
+  background: transparent;
+}
+
+[data-theme="light"] .footer__motto {
+  color: var(--color-text-secondary);
+}
+
+[data-theme="light"] .footer__author {
+  color: var(--color-text);
+}
+

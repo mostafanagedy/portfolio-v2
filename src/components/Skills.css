@@ -1,0 +1,162 @@
+/* ===== SKILLS CATEGORIZED VIEW ===== */
+.skills-section {
+  padding-block: 16px 20px;
+}
+
+.skills-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.skills-category-card {
+  background: rgba(18, 18, 18, 0.65);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.50), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+
+.skills-category-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 161, 22, 0.40);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.60), 0 0 25px rgba(255, 161, 22, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.skills-category-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.skills-category-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 161, 22, 0.12);
+  border: 1px solid rgba(255, 161, 22, 0.30);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 12px rgba(255, 161, 22, 0.15);
+}
+
+.skills-category-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+  flex: 1;
+}
+
+.skills-category-count {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: rgba(255, 161, 22, 0.10);
+  border: 1px solid rgba(255, 161, 22, 0.22);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+}
+
+.skills-category-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 12px;
+}
+
+/* Individual Skill Badge */
+.skill-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 8px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  transition: all var(--transition);
+  cursor: default;
+}
+
+.skill-badge:hover {
+  background: rgba(255, 161, 22, 0.08);
+  border-color: rgba(255, 161, 22, 0.35);
+  box-shadow: 0 4px 16px rgba(255, 161, 22, 0.20);
+  transform: translateY(-2px);
+}
+
+.skill-badge__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skill-badge__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .skills-categories-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== LIGHT THEME ADAPTATIONS ===== */
+[data-theme="light"] .skills-category-card {
+  background: rgba(255, 255, 255, 0.80);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.90);
+  box-shadow: var(--shadow-card);
+}
+
+[data-theme="light"] .skills-category-card:hover {
+  border-color: var(--color-border-active);
+  box-shadow: var(--glass-shadow-hover);
+}
+
+[data-theme="light"] .skills-category-header {
+  border-bottom: 1px solid var(--color-border);
+}
+
+[data-theme="light"] .skills-category-title {
+  color: var(--color-text);
+}
+
+[data-theme="light"] .skills-category-icon {
+  background: rgba(255, 161, 22, 0.14);
+  border-color: rgba(255, 161, 22, 0.38);
+}
+
+[data-theme="light"] .skill-badge {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--color-border);
+}
+
+[data-theme="light"] .skill-badge:hover {
+  background: #ffffff;
+  border-color: var(--color-border-active);
+  box-shadow: 0 4px 14px rgba(255, 159, 10, 0.20);
+}
+
+[data-theme="light"] .skill-badge__label {
+  color: var(--color-text-secondary);
+}

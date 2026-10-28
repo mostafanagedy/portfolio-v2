@@ -1,0 +1,341 @@
+/* ===== ABOUT ===== */
+.about__grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 36px;
+  align-items: start;
+}
+
+.about__eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-primary);
+  text-transform: uppercase;
+}
+
+.about__title {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--color-text);
+  line-height: 1.18;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.about__title .text-accent {
+  color: var(--color-primary);
+}
+
+.about__title-name {
+  color: var(--color-text);
+}
+
+.about__desc {
+  font-size: 0.92rem;
+  color: var(--color-text-secondary);
+  line-height: 1.65;
+  margin: 0;
+  max-width: 580px;
+}
+
+/* Call to Action Button */
+.about__cta-row {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.about__cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 22px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #080B0F;
+  background: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-md, 8px);
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(255, 159, 10, 0.30);
+  transition: all var(--transition);
+}
+
+.about__cta-btn:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  box-shadow: 0 6px 20px rgba(255, 159, 10, 0.45);
+  transform: translateY(-2px);
+}
+
+/* 4 Cards (2x2 Grid) */
+.about__cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.about__card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #11161D;
+  border: 1px solid #252C36;
+  border-radius: var(--radius-lg, 12px);
+  box-shadow: var(--shadow-card);
+  transition: all var(--transition);
+}
+
+.about__card:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.50), 0 0 16px var(--color-primary-glow);
+  transform: translateY(-2px);
+}
+
+.about__card-icon-box {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm, 6px);
+  background: var(--color-primary-glow);
+  border: 1px solid rgba(255, 159, 10, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.about__card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.about__card-label {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+.about__card-title {
+  font-family: var(--font-display);
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+  line-height: 1.25;
+}
+
+.about__card-subtitle {
+  font-size: 0.74rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: 1.35;
+}
+
+/* Footer Quote & Signature */
+.about__footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.about__quote {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.about__quote-bar {
+  width: 3px;
+  height: 28px;
+  background: var(--color-primary);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.about__quote-text {
+  font-size: 0.84rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  margin: 0;
+}
+
+.about__signature {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.about__signature-text {
+  font-family: "Brush Script MT", "Caveat", "Segoe Script", cursive;
+  font-size: 1.45rem;
+  color: var(--color-primary);
+  transform: rotate(-3deg);
+  line-height: 1;
+}
+
+.about__signature-underline {
+  width: 72px;
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: 1px;
+  margin-top: 2px;
+  transform: rotate(-3deg);
+}
+
+/* Right Column: Hero Portrait */
+.about__right {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.about__portrait-container {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+}
+
+/* Learning badge shown in light mode */
+.about__badge-learning {
+  display: none;
+  position: absolute;
+  top: -24px;
+  right: -8px;
+  font-family: "Brush Script MT", "Caveat", "Segoe Script", cursive;
+  font-size: 1.55rem;
+  color: var(--color-primary);
+  transform: rotate(8deg);
+  line-height: 1.1;
+  text-align: right;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.about__badge-sub {
+  display: block;
+}
+
+.about__portrait-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-xl, 24px);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.about__portrait-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.about__portrait-frame:hover .about__portrait-img {
+  transform: scale(1.03);
+}
+
+/* ========================================================
+   LIGHT THEME ADAPTATIONS
+   ======================================================== */
+[data-theme="light"] .about__card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+}
+
+[data-theme="light"] .about__card:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08), 0 0 16px var(--color-primary-glow);
+}
+
+[data-theme="light"] .about__card-label {
+  color: #8492A6;
+}
+
+[data-theme="light"] .about__card-title {
+  color: #172033;
+}
+
+[data-theme="light"] .about__card-subtitle {
+  color: #596579;
+}
+
+[data-theme="light"] .about__cta-btn {
+  color: #FFFFFF;
+}
+
+
+[data-theme="light"] .about__badge-learning {
+  display: block;
+}
+
+[data-theme="light"] .about__portrait-frame {
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.10);
+}
+
+/* ========================================================
+   RESPONSIVE DESIGN
+   ======================================================== */
+@media (max-width: 1024px) {
+  .about__layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .about__right {
+    order: -1;
+    max-width: 360px;
+    margin-inline: auto;
+  }
+
+  .about__title {
+    font-size: 1.85rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .about-section {
+    padding-block: 16px 28px;
+  }
+
+  .about-container {
+    padding-inline: 16px;
+  }
+
+  .about__title {
+    font-size: 1.6rem;
+  }
+
+  .about__cards-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .about__footer-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}

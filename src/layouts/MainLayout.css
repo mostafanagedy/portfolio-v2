@@ -1,0 +1,129 @@
+/* ===== MAIN APPLICATION SHELL ===== */
+.portfolio-app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Global Ambient Cinematic Studio Background with Dark Overlay */
+.portfolio-ambient-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image: 
+    linear-gradient(
+      180deg, 
+      rgba(8, 11, 15, 0.92) 0%, 
+      rgba(8, 11, 15, 0.82) 38%, 
+      rgba(8, 11, 15, 0.96) 100%
+    ),
+    radial-gradient(
+      circle at 65% 25%, 
+      rgba(255, 159, 10, 0.12) 0%, 
+      transparent 60%
+    ),
+    url("/images/workspace-studio.webp");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  transition: opacity 0.25s ease, background-image 0.25s ease;
+}
+
+[data-theme="light"] .portfolio-ambient-bg {
+  background-color: var(--color-bg);
+  background-image: 
+    radial-gradient(
+      circle at 70% 20%, 
+      rgba(245, 158, 11, 0.07) 0%, 
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 20% 80%, 
+      rgba(220, 226, 234, 0.60) 0%, 
+      transparent 55%
+    );
+  opacity: 1;
+}
+
+.skip-to-content {
+  position: absolute;
+  top: -100px;
+  left: 20px;
+  background: var(--color-primary);
+  color: #000;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  z-index: 9999;
+  transition: top 0.2s ease;
+}
+
+.skip-to-content:focus {
+  top: 20px;
+}
+
+.portfolio-main-outlet {
+  flex: 1;
+  padding-top: 64px; /* Space for the fixed persistent navbar */
+  min-height: calc(100vh - 110px);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Home & Contact Page Viewport Lock: strictly fit inside 100vh without vertical scroll */
+@media (min-width: 1025px) {
+  html.no-scroll-home,
+  body.no-scroll-home,
+  html.no-scroll-contact,
+  body.no-scroll-contact,
+  html.no-scroll-fixed,
+  body.no-scroll-fixed {
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden !important;
+  }
+
+  .portfolio-app-shell--home,
+  .portfolio-app-shell--contact {
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden !important;
+  }
+
+  .portfolio-app-shell--home .portfolio-main-outlet,
+  .portfolio-app-shell--contact .portfolio-main-outlet {
+    flex: 1;
+    min-height: 0;
+    padding-top: 64px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+  }
+
+  .portfolio-app-shell--home .page-transition-container,
+  .portfolio-app-shell--contact .page-transition-container {
+    height: 100%;
+    min-height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .portfolio-app-shell--home .footer,
+  .portfolio-app-shell--contact .footer {
+    height: 38px;
+    padding: 4px 0;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+}
