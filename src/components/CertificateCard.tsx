@@ -2,30 +2,21 @@
 
 import React from "react";
 import {
-  Award,
   Download,
-  ExternalLink,
-  FileText,
-  CheckCircle2,
   BookOpen,
   Calendar,
   ShieldCheck,
+  FileText,
 } from "lucide-react";
 import { CertificateItem } from "../types/certificate";
 import { BrandIcons } from "./TechIcons";
+import CertificateThumbnail from "./CertificateThumbnail";
 import "./CertificateCard.css";
 
 interface CertificateCardProps {
   certificate: CertificateItem;
   viewMode?: "grid" | "list";
   onView: (cert: CertificateItem) => void;
-}
-
-function formatFileSize(bytes: number): string {
-  if (!bytes || bytes <= 0) return "";
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
 export default function CertificateCard({
@@ -39,30 +30,36 @@ export default function CertificateCard({
     category,
     credentialId,
     verifyUrl,
-    sizeBytes,
     format,
-    documentUrl,
-    rawUrl,
     githubUrl,
     tags,
     allowDownload,
     issueDate,
+    featured,
   } = certificate;
 
   const handleDownloadClick = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
 
-  const isCoursera = category === "Coursera";
-  const isLinkedIn = category === "LinkedIn Learning";
-
-  // If in list view, render compact horizontal row
+  // Compact List View Mode
   if (viewMode === "list") {
     return (
       <article className="cert-card cert-card--list" aria-label={`Certificate: ${title}`}>
-        {/* Compact Document Emblem */}
-        <div className="cert-card__list-icon" onClick={() => onView(certificate)}>
-          <Award size={22} className="cert-card__list-emblem-icon" />
+        {/* Real Thumbnail Box */}
+        <div
+          className="cert-card__list-thumb-wrapper"
+          onClick={() => onView(certificate)}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === "Enter" && onView(certificate)}
+          title={`Click to preview ${title}`}
+        >
+          <CertificateThumbnail
+            certificate={certificate}
+            priority={featured}
+            className="cert-thumb--list"
+          />
         </div>
 
         {/* Content Column */}
@@ -71,16 +68,11 @@ export default function CertificateCard({
             <span className={`cert-issuer-tag cert-issuer-tag--${category.toLowerCase().replace(/[^a-z]/g, "-")}`}>
               {issuer}
             </span>
+            <span className="cert-cat-tag">{category}</span>
             {issueDate && (
               <span className="cert-date-tag">
                 <Calendar size={11} />
                 <span>{issueDate}</span>
-              </span>
-            )}
-            {credentialId && (
-              <span className="cert-cred-tag" title={`Credential ID: ${credentialId}`}>
-                <CheckCircle2 size={11} />
-                <span>ID: {credentialId}</span>
               </span>
             )}
           </div>
@@ -99,6 +91,7 @@ export default function CertificateCard({
 
         {/* Action Buttons */}
         <div className="cert-card__list-actions">
+          {/* Verify Button (Only when genuine verification URL exists) */}
           {verifyUrl && (
             <a
               href={verifyUrl}
@@ -113,6 +106,7 @@ export default function CertificateCard({
             </a>
           )}
 
+          {/* View Action (Primary Orange) */}
           <button
             type="button"
             className="btn cert-btn cert-btn--view"
@@ -123,6 +117,7 @@ export default function CertificateCard({
             <span>View</span>
           </button>
 
+          {/* Download Action (Only when allowed) */}
           {allowDownload && (
             <a
               href={`/api/certificates/document?file=${encodeURIComponent(certificate.filename)}&download=1`}
@@ -156,80 +151,47 @@ export default function CertificateCard({
   // Grid Card View (Default)
   return (
     <article className="cert-card" aria-label={`Certificate: ${title}`}>
-      {/* Top Preview Canvas (Authentic Document Style Preview) */}
+      {/* 1. Actual Certificate Thumbnail */}
       <div
-        className={`cert-card__preview ${
-          isCoursera ? "cert-card__preview--coursera" : isLinkedIn ? "cert-card__preview--linkedin" : ""
-        }`}
+        className="cert-card__preview"
         onClick={() => onView(certificate)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => e.key === "Enter" && onView(certificate)}
       >
-        <div className="cert-card__preview-bg" aria-hidden="true">
-          {/* Subtle document header bar */}
-          <div className="cert-doc-ribbon">
-            <span className="cert-doc-ribbon-bar" />
-            <span className="cert-doc-ribbon-text">{issuer.toUpperCase()}</span>
-          </div>
+        <CertificateThumbnail
+          certificate={certificate}
+          priority={featured}
+        />
 
-          <div className="cert-card__preview-lines">
-            <div className="cert-doc-sim-title">{title}</div>
-            <div className="cert-doc-sim-owner">Issued to Mostafa Maged Nagedy</div>
-          </div>
-
-          <div className="cert-card__emblem-ring">
-            <Award size={34} className="cert-card__emblem-icon" />
-          </div>
-        </div>
-
-        {/* Floating Format & Issuer Badges */}
+        {/* Format Badge */}
         <div className="cert-card__badge-row">
           <span className="cert-badge cert-badge--format">
-            <FileText size={12} />
+            <FileText size={11} />
             <span>{format.toUpperCase()}</span>
           </span>
-
-          {sizeBytes > 0 && (
-            <span className="cert-badge cert-badge--size">{formatFileSize(sizeBytes)}</span>
-          )}
         </div>
 
-        {/* Hover Overlay with "Inspect Certificate" Action */}
+        {/* Hover Overlay with "View Certificate" Action */}
         <div className="cert-card__hover-overlay">
           <button
             type="button"
             className="cert-card__hover-btn"
-            onClick={() => onView(certificate)}
-            aria-label={`Inspect ${title}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onView(certificate);
+            }}
+            aria-label={`View ${title}`}
           >
-            <BookOpen size={16} />
-            <span>Inspect Certificate</span>
+            <BookOpen size={15} />
+            <span>View Certificate</span>
           </button>
         </div>
       </div>
 
       {/* Card Body */}
       <div className="cert-card__body">
-        {/* Category & Issuer Row */}
-        <div className="cert-card__meta-top">
-          <span className={`cert-issuer-tag cert-issuer-tag--${category.toLowerCase().replace(/[^a-z]/g, "-")}`}>
-            {issuer}
-          </span>
-
-          {issueDate && (
-            <span className="cert-date-tag">
-              <Calendar size={11} />
-              <span>{issueDate}</span>
-            </span>
-          )}
-
-          {credentialId && (
-            <span className="cert-cred-tag" title={`Credential ID: ${credentialId}`}>
-              <CheckCircle2 size={12} />
-              <span>ID: {credentialId.slice(0, 8)}...</span>
-            </span>
-          )}
-        </div>
-
-        {/* Title */}
+        {/* 2. Certificate Title */}
         <h3 className="cert-card__title">
           <button
             type="button"
@@ -241,7 +203,25 @@ export default function CertificateCard({
           </button>
         </h3>
 
-        {/* Tags */}
+        {/* 3. Issuing Organization & 4. Relevant Category */}
+        <div className="cert-card__meta-top">
+          <span className={`cert-issuer-tag cert-issuer-tag--${category.toLowerCase().replace(/[^a-z]/g, "-")}`}>
+            {issuer}
+          </span>
+
+          <span className="cert-cat-tag">
+            {category}
+          </span>
+
+          {issueDate && (
+            <span className="cert-date-tag">
+              <Calendar size={11} />
+              <span>{issueDate}</span>
+            </span>
+          )}
+        </div>
+
+        {/* Topic Tags (subtle, clean) */}
         {tags && tags.length > 0 && (
           <div className="cert-card__tags" aria-label="Topics">
             {tags.slice(0, 3).map((tag) => (
@@ -249,15 +229,23 @@ export default function CertificateCard({
                 {tag}
               </span>
             ))}
-            {tags.length > 3 && (
-              <span className="cert-tag cert-tag--more">+{tags.length - 3}</span>
-            )}
           </div>
         )}
 
-        {/* Actions Row */}
+        {/* 5. Available Actions */}
         <div className="cert-card__actions">
-          {/* Verify Button: Displayed ONLY when genuine verification URL exists (Requirement 6) */}
+          {/* Primary View Action (Prominent Orange) */}
+          <button
+            type="button"
+            className="btn cert-btn cert-btn--view"
+            onClick={() => onView(certificate)}
+            aria-label={`View ${title}`}
+          >
+            <BookOpen size={14} />
+            <span>View Certificate</span>
+          </button>
+
+          {/* Verify Action (Only when genuine verification URL exists) */}
           {verifyUrl && (
             <a
               href={verifyUrl}
@@ -272,18 +260,7 @@ export default function CertificateCard({
             </a>
           )}
 
-          {/* View Action */}
-          <button
-            type="button"
-            className="btn cert-btn cert-btn--view"
-            onClick={() => onView(certificate)}
-            aria-label={`View ${title}`}
-          >
-            <Award size={14} />
-            <span>View</span>
-          </button>
-
-          {/* Download Action: Displayed ONLY when allowDownload is true (Requirement 5) */}
+          {/* Download Action (Only when allowed) */}
           {allowDownload && (
             <a
               href={`/api/certificates/document?file=${encodeURIComponent(certificate.filename)}&download=1`}
@@ -291,9 +268,9 @@ export default function CertificateCard({
               className="btn cert-btn cert-btn--download"
               onClick={handleDownloadClick}
               aria-label={`Download ${title}`}
-              title="Download PDF"
+              title="Download original certificate document"
             >
-              <Download size={14} />
+              <Download size={13} />
               <span>Download</span>
             </a>
           )}

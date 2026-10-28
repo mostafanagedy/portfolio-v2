@@ -244,8 +244,8 @@
 
 .certs-featured-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
 }
 
 /* Toolbar: Search, Filters, and Sorting */
@@ -486,9 +486,12 @@
 /* Load More Pagination Container */
 .certs-loadmore-container {
   display: flex;
+  align-items: center;
   justify-content: center;
+  gap: 14px;
   margin-top: 36px;
   padding-top: 20px;
+  flex-wrap: wrap;
 }
 
 .certs-loadmore-btn {
@@ -521,6 +524,28 @@
   background: rgba(255, 161, 22, 0.12);
   padding: 2px 8px;
   border-radius: 6px;
+}
+
+.certs-viewall-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.certs-viewall-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  transform: translateY(-2px);
 }
 
 /* Skeletons */
@@ -828,6 +853,11 @@
 
   .certs-featured-section {
     padding: 16px;
+  }
+
+  .certs-featured-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .certs-grid {

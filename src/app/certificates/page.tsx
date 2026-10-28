@@ -53,6 +53,7 @@ export default function CertificatesPage() {
     hasMore,
     remainingCount,
     loadMore,
+    showAll,
     refresh,
     retry,
   } = useCertificates();
@@ -263,6 +264,7 @@ export default function CertificatesPage() {
               >
                 <option value="name-asc">Title: A to Z</option>
                 <option value="name-desc">Title: Z to A</option>
+                <option value="date-desc">Date: Newest First</option>
                 <option value="size-desc">Size: Largest First</option>
               </select>
             </div>
@@ -410,7 +412,7 @@ export default function CertificatesPage() {
                 ))}
               </div>
 
-              {/* Load More Pagination (Requirement 8) */}
+              {/* Load More Pagination & Optional View-All Mode (Requirement 3) */}
               {hasMore && (
                 <div className="certs-loadmore-container">
                   <button
@@ -422,6 +424,16 @@ export default function CertificatesPage() {
                     <span>Load More Certificates</span>
                     <span className="certs-loadmore-count">+{remainingCount} remaining</span>
                     <ChevronDown size={16} />
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn certs-viewall-btn"
+                    onClick={showAll}
+                    title="Display all certificates at once"
+                    aria-label="View all certificates"
+                  >
+                    <span>View All ({allFilteredCertificates.length})</span>
                   </button>
                 </div>
               )}

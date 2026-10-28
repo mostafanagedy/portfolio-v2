@@ -3,10 +3,10 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { CertificateItem, CertificateCategory, CertificatesResponse } from "../types/certificate";
 
-export type CertificateSortOption = "name-asc" | "name-desc" | "size-desc";
+export type CertificateSortOption = "name-asc" | "name-desc" | "date-desc" | "size-desc";
 export type CertificateViewMode = "grid" | "list";
 
-const INITIAL_PAGE_SIZE = 12;
+const INITIAL_PAGE_SIZE = 9;
 
 export function useCertificates() {
   const [data, setData] = useState<CertificatesResponse | null>(null);
@@ -96,6 +96,11 @@ export function useCertificates() {
       if (sortBy === "name-desc") {
         return b.title.localeCompare(a.title);
       }
+      if (sortBy === "date-desc") {
+        const dateA = a.issueDate ? new Date(a.issueDate).getTime() || 0 : 0;
+        const dateB = b.issueDate ? new Date(b.issueDate).getTime() || 0 : 0;
+        return dateB - dateA;
+      }
       if (sortBy === "size-desc") {
         return b.sizeBytes - a.sizeBytes;
       }
@@ -116,6 +121,10 @@ export function useCertificates() {
     setVisibleCount((prev) => prev + INITIAL_PAGE_SIZE);
   };
 
+  const showAll = () => {
+    setVisibleCount(filteredCertificates.length);
+  };
+
   return {
     certificates: paginatedCertificates,
     allFilteredCertificates: filteredCertificates,
@@ -129,7 +138,7 @@ export function useCertificates() {
     error,
     cachedAt: data?.cachedAt,
     sourceRepo: data?.sourceRepo || "https://github.com/mostafanagedy/my_Certificates",
-    requestedRepo: data?.requestedRepo || "https://github.com/mostafanagy/my_Certificates",
+    requestedRepo: data?.requestedRepo || "https://github.com/mostafanagedy/my_Certificates",
     repoNote: data?.repoNote,
     searchQuery,
     setSearchQuery,
@@ -143,6 +152,7 @@ export function useCertificates() {
     setViewMode,
     hasMore,
     remainingCount,
+    showAll,
     loadMore,
     refresh: () => loadCertificates(true),
     retry: () => loadCertificates(false),

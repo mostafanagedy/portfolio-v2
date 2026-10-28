@@ -346,17 +346,16 @@ export async function fetchCertificatesFromGitHub(forceRefresh = false): Promise
   // Sort certificates alphabetically by title
   certificates.sort((a, b) => a.title.localeCompare(b.title));
 
-  // Determine Featured Certificates (up to 4)
+  // Determine Featured Certificates (up to 3 for balanced 3-column layout)
   let featuredCertificates = certificates.filter((c) => c.featured);
   if (featuredCertificates.length === 0) {
     // Graceful fallback to prominent diverse certificates
     const courseraCert = certificates.find((c) => c.category === "Coursera");
     const jsCert = certificates.find((c) => c.title.toLowerCase().includes("javascript"));
     const agileCert = certificates.find((c) => c.title.toLowerCase().includes("agile"));
-    const workshopCert = certificates.find((c) => c.category === "Workshops & Training");
-    featuredCertificates = [courseraCert, jsCert, agileCert, workshopCert].filter(Boolean) as CertificateItem[];
+    featuredCertificates = [courseraCert, jsCert, agileCert].filter(Boolean) as CertificateItem[];
   }
-  featuredCertificates = featuredCertificates.slice(0, 4);
+  featuredCertificates = featuredCertificates.slice(0, 3);
 
   const categories = ["All", "LinkedIn Learning", "Coursera", "Workshops & Training"];
 

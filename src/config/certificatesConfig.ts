@@ -68,12 +68,12 @@ export interface CertificatesConfig {
 
 export const certificatesConfig: CertificatesConfig = {
   defaultAllowDownload: true,
-  intendedRepoUrl: "https://github.com/mostafanagy/my_Certificates",
+  intendedRepoUrl: "https://github.com/mostafanagedy/my_Certificates",
   fallbackRepoUrl: "https://github.com/mostafanagedy/my_Certificates",
 
   overrides: {
     // -------------------------------------------------------------
-    // Featured Certificates (Displayed in Top Spotlight Section)
+    // Featured Certificates (Displayed in Top Spotlight Section: Exactly 3 items)
     // -------------------------------------------------------------
     "Coursera 0OT599ROI9WB.pdf": {
       displayTitle: "Coursera Verified Specialization Certificate (0OT599ROI9WB)",
@@ -102,7 +102,7 @@ export const certificatesConfig: CertificatesConfig = {
     },
     "End-to-End Software Development Workshop.pdf": {
       displayTitle: "End-to-End Software Development Workshop",
-      featured: true,
+      featured: false,
       allowDownload: true,
       issuer: "Professional Workshop",
       category: "Workshops & Training",

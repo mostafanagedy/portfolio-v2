@@ -1,0 +1,112 @@
+.cert-thumb-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: radial-gradient(circle at center, rgba(30, 30, 36, 0.95), rgba(16, 16, 20, 0.98));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cert-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 6px;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s ease;
+  display: block;
+}
+
+.cert-card:hover .cert-thumb-img {
+  transform: scale(1.03);
+}
+
+/* Skeleton Loading State */
+.cert-thumb-skeleton {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.07) 50%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  background-size: 200% 100%;
+  animation: cert-skeleton-shimmer 1.8s infinite ease-in-out;
+}
+
+@keyframes cert-skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.cert-thumb-skeleton-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted, #888);
+}
+
+.cert-thumb-spinner-icon {
+  animation: cert-thumb-spin 1.2s linear infinite;
+  color: var(--accent-primary, #ffa116);
+}
+
+@keyframes cert-thumb-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.cert-thumb-loading-text {
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: var(--text-muted, #888);
+}
+
+/* Fallback state when rendering cannot proceed */
+.cert-thumb-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  text-align: center;
+  color: var(--text-muted, #888);
+}
+
+.cert-thumb-fallback-icon {
+  color: var(--accent-primary, #ffa116);
+  opacity: 0.7;
+}
+
+.cert-thumb-fallback-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary, #fff);
+  max-width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cert-thumb-fallback-sub {
+  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
