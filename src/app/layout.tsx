@@ -22,7 +22,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Mostafa Nagdy | MERN Stack & Front-End Developer",
+  title: "Mostafa Nagdy",
   description:
     "Explore Mostafa Nagdy's developer portfolio, featuring web development projects, React, Angular, Node.js, MongoDB, and cloud technology learning.",
   keywords: [
