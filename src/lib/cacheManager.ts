@@ -1,7 +1,13 @@
 import { GitHubReposResponse } from "../types/github";
+import { CertificatesResponse } from "../types/certificate";
 
 interface CacheStore {
   data: GitHubReposResponse;
+  timestamp: number;
+}
+
+interface CertificatesCacheStore {
+  data: CertificatesResponse;
   timestamp: number;
 }
 
@@ -11,6 +17,7 @@ export const CACHE_TTL_SECONDS =
 export const CACHE_TTL_MS = CACHE_TTL_SECONDS * 1000;
 
 let globalReposCache: CacheStore | null = null;
+let globalCertificatesCache: CertificatesCacheStore | null = null;
 
 // Track recent webhook deliveries to avoid duplicate processing (capped at 100 entries)
 const recentWebhookDeliveries = new Set<string>();
@@ -100,3 +107,43 @@ export function getCacheStatus() {
     isExpired: ageSeconds >= CACHE_TTL_SECONDS,
   };
 }
+
+/**
+ * Retrieves currently cached certificates data if still within TTL
+ */
+export function getCachedCertificates(): {
+  data: CertificatesResponse;
+  isStale: boolean;
+} | null {
+  if (!globalCertificatesCache) return null;
+
+  const now = Date.now();
+  const ageMs = now - globalCertificatesCache.timestamp;
+  const isStale = ageMs >= CACHE_TTL_MS;
+
+  return {
+    data: globalCertificatesCache.data,
+    isStale,
+  };
+}
+
+/**
+ * Sets the global certificates cache
+ */
+export function setCachedCertificates(data: CertificatesResponse): void {
+  globalCertificatesCache = {
+    data,
+    timestamp: Date.now(),
+  };
+}
+
+/**
+ * Invalidates the certificates cache immediately (used by manual refresh)
+ */
+export function invalidateCertificatesCache(reason?: string): void {
+  if (reason) {
+    console.log(`[CacheManager] Invalidating certificates cache: ${reason}`);
+  }
+  globalCertificatesCache = null;
+}
+

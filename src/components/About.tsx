@@ -1,10 +1,22 @@
+"use client";
+
+import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Code, GraduationCap, MapPin, Briefcase } from "lucide-react";
+import {
+  ArrowUpRight,
+  Code2,
+  GraduationCap,
+  MapPin,
+  Briefcase,
+  Award,
+  Download,
+  AlertCircle,
+} from "lucide-react";
 import "./About.css";
 
 const cards = [
   {
-    icon: Code,
+    icon: Code2,
     label: "MY STACK",
     title: "MERN Stack",
     subtitle: "MongoDB, Express, React, Node.js",
@@ -30,6 +42,21 @@ const cards = [
 ];
 
 export default function About() {
+  const [cvNotice, setCvNotice] = useState(false);
+
+  const handleCvClick = async (e: React.MouseEvent<HTMLAnchorElement>) => {
+    try {
+      const res = await fetch("/Mostafa-Nagdy-CV.pdf", { method: "HEAD" });
+      if (!res.ok) {
+        e.preventDefault();
+        setCvNotice(true);
+        setTimeout(() => setCvNotice(false), 5500);
+      }
+    } catch {
+      // If network fails or HEAD isn't permitted, let default browser download proceed
+    }
+  };
+
   return (
     <section id="about" className="section about-section" aria-label="About Mostafa Nagdy">
       <div className="container about-container">
@@ -55,11 +82,56 @@ export default function About() {
               my knowledge of full-stack development and cloud technologies.
             </p>
 
-            <div className="about__cta-row">
-              <Link href="/projects" className="btn btn--primary about__cta-btn">
-                <span>Explore My Work</span>
-                <ArrowUpRight size={17} aria-hidden="true" />
-              </Link>
+            {/* 3 Call to Action Buttons */}
+            <div className="about__cta-container">
+              <div className="about__cta-row" role="group" aria-label="About actions">
+                {/* Button 1: View My Work (Primary CTA) */}
+                <Link
+                  href="/projects"
+                  className="btn about__cta-btn about__cta-btn--primary"
+                  aria-label="View My Work and Portfolio Projects"
+                >
+                  <Code2 size={16} aria-hidden="true" />
+                  <span>View My Work</span>
+                  <ArrowUpRight size={15} aria-hidden="true" />
+                </Link>
+
+                {/* Button 2: View My Certificates (Secondary Glass CTA) */}
+                <Link
+                  href="/certificates"
+                  className="btn about__cta-btn about__cta-btn--secondary"
+                  aria-label="View My Verified Certificates and Achievements"
+                >
+                  <Award size={16} aria-hidden="true" />
+                  <span>View My Certificates</span>
+                  <ArrowUpRight size={15} aria-hidden="true" />
+                </Link>
+
+                {/* Button 3: Download CV (Secondary Glass CTA with Download Action) */}
+                <a
+                  href="/Mostafa-Nagdy-CV.pdf"
+                  download="Mostafa-Nagdy-CV.pdf"
+                  className="btn about__cta-btn about__cta-btn--secondary about__cta-btn--cv"
+                  onClick={handleCvClick}
+                  aria-label="Download Mostafa Nagdy CV (PDF)"
+                  title="Download CV (PDF)"
+                >
+                  <Download size={16} aria-hidden="true" />
+                  <span>Download CV</span>
+                  <Download size={13} className="about__cta-download-arrow" aria-hidden="true" />
+                </a>
+              </div>
+
+              {/* Informative notice if CV file has not been uploaded yet */}
+              {cvNotice && (
+                <div className="about__cv-notice" role="status" aria-live="polite">
+                  <AlertCircle size={15} />
+                  <span>
+                    To enable instant download, place your real CV at:{" "}
+                    <code>public/Mostafa-Nagdy-CV.pdf</code>
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* 4 Compact Information Cards (2x2 Grid) */}
