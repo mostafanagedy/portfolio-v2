@@ -32,6 +32,7 @@ export async function GET() {
       headers: {
         "User-Agent": "Mozilla/5.0 (compatible; PortfolioStats/1.0)",
       },
+      signal: AbortSignal.timeout(3000),
     });
 
     if (viewsRes.ok) {
@@ -47,7 +48,7 @@ export async function GET() {
       }
     }
   } catch (err) {
-    console.error("Failed to fetch live view count:", err);
+    // Graceful fallback without blocking
   }
 
   // 2. Fetch live GitHub stats (followers and repositories)
@@ -58,6 +59,7 @@ export async function GET() {
         "User-Agent": "Portfolio-App",
       },
       next: { revalidate: 300 },
+      signal: AbortSignal.timeout(3000),
     });
 
     if (ghRes.ok) {

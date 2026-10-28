@@ -183,21 +183,20 @@ export default function RootLayout({
       <head>
         <meta name="color-scheme" content="dark light" />
         <script
+          id="theme-init"
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var s=localStorage.getItem("mn_theme");var t=s||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.setAttribute("data-theme",t);document.documentElement.style.colorScheme=t;}catch(e){}})();`,
           }}
         />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `if(typeof window!=="undefined"){new MutationObserver(function(m){for(var i=0;i<m.length;i++){if(m[i].attributeName==="bis_skin_checked"){m[i].target.removeAttribute("bis_skin_checked");}}}).observe(document.documentElement,{attributes:true,subtree:true,attributeFilter:["bis_skin_checked"]});}`,
-          }}
-        />
       </head>
       <body suppressHydrationWarning>
+        <script
+          type="application/ld+json"
+          id="structured-data"
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <MainLayout>{children}</MainLayout>
       </body>
     </html>
