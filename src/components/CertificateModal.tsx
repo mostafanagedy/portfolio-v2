@@ -1,18 +1,21 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
+import { createPortal } from "react-dom";
 import {
   X,
   Download,
   ExternalLink,
   ZoomIn,
   ZoomOut,
+  RotateCcw,
   ChevronLeft,
   ChevronRight,
   ShieldCheck,
   Calendar,
   FileText,
   Loader2,
+  Move,
 } from "lucide-react";
 import { CertificateItem } from "../types/certificate";
 import { BrandIcons } from "./TechIcons";
@@ -36,16 +39,29 @@ export default function CertificateModal({
   hasPrev = false,
   hasNext = false,
 }: CertificateModalProps) {
+  const [mounted, setMounted] = useState<boolean>(false);
   const [zoomLevel, setZoomLevel] = useState<number>(100);
+  const [pan, setPan] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState<boolean>(false);
   const [highResUrl, setHighResUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [renderError, setRenderError] = useState<boolean>(false);
+
+  const dragStartRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const panStartRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const viewerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Load high-resolution preview when certificate changes
   useEffect(() => {
     if (!certificate) return;
 
     setZoomLevel(100);
+    setPan({ x: 0, y: 0 });
+    setIsDragging(false);
     setRenderError(false);
 
     if (certificate.format !== "pdf") {
@@ -101,19 +117,95 @@ export default function CertificateModal({
     };
   }, [certificate, onClose, onPrev, onNext, hasPrev, hasNext]);
 
+  // Zoom controls
   const handleZoomIn = useCallback(() => {
-    setZoomLevel((prev) => Math.min(prev + 25, 200));
+    setZoomLevel((prev) => Math.min(prev + 25, 250));
   }, []);
 
   const handleZoomOut = useCallback(() => {
     setZoomLevel((prev) => Math.max(prev - 25, 75));
   }, []);
 
-  const handleZoomReset = useCallback(() => {
+  const handleResetView = useCallback(() => {
     setZoomLevel(100);
+    setPan({ x: 0, y: 0 });
   }, []);
 
-  if (!certificate) return null;
+  // Pan / Drag Handling (Mouse)
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Left mouse button only
+    if (e.button !== 0) return;
+    e.preventDefault();
+    setIsDragging(true);
+    dragStartRef.current = { x: e.clientX, y: e.clientY };
+    panStartRef.current = { ...pan };
+  };
+
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!isDragging) return;
+      const deltaX = e.clientX - dragStartRef.current.x;
+      const deltaY = e.clientY - dragStartRef.current.y;
+      setPan({
+        x: panStartRef.current.x + deltaX,
+        y: panStartRef.current.y + deltaY,
+      });
+    },
+    [isDragging]
+  );
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  // Window listeners so panning stays active even if mouse drifts outside container
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+    }
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isDragging, handleMouseMove, handleMouseUp]);
+
+  // Touch Handling for Mobile/Tablet Panning
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (e.touches.length === 1) {
+      setIsDragging(true);
+      dragStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      panStartRef.current = { ...pan };
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!isDragging || e.touches.length !== 1) return;
+    const deltaX = e.touches[0].clientX - dragStartRef.current.x;
+    const deltaY = e.touches[0].clientY - dragStartRef.current.y;
+    setPan({
+      x: panStartRef.current.x + deltaX,
+      y: panStartRef.current.y + deltaY,
+    });
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+  };
+
+  // Optional Mouse Wheel Zoom with Ctrl/Meta key
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      if (e.deltaY < 0) {
+        setZoomLevel((prev) => Math.min(prev + 15, 250));
+      } else {
+        setZoomLevel((prev) => Math.max(prev - 15, 60));
+      }
+    }
+  };
+
+  if (!certificate || !mounted) return null;
 
   const {
     title,
@@ -138,7 +230,9 @@ export default function CertificateModal({
         : `${(sizeBytes / (1024 * 1024)).toFixed(1)} MB`
       : "";
 
-  return (
+  const isTransformed = zoomLevel !== 100 || pan.x !== 0 || pan.y !== 0;
+
+  return createPortal(
     <div
       className="cert-modal-backdrop"
       onClick={onClose}
@@ -146,7 +240,7 @@ export default function CertificateModal({
       aria-modal="true"
       aria-labelledby="modal-cert-title"
     >
-      {/* Accessible Backdrop Click Overlay */}
+      {/* Accessible Backdrop Click Overlay & Unified Modal Dialog */}
       <div
         className="cert-modal-dialog"
         onClick={(e) => e.stopPropagation()}
@@ -177,7 +271,7 @@ export default function CertificateModal({
           </button>
         )}
 
-        {/* Modal Header */}
+        {/* 1. Modal Header (Title, Badges, Zoom Controls, Close Button) */}
         <header className="cert-modal-header">
           <div className="cert-modal-header__info">
             <div className="cert-modal-badge-row">
@@ -203,43 +297,58 @@ export default function CertificateModal({
               )}
             </div>
 
-            <h2 id="modal-cert-title" className="cert-modal-title">
+            <h2 id="modal-cert-title" className="cert-modal-title" title={title}>
               {title}
             </h2>
           </div>
 
           <div className="cert-modal-header__tools">
-            {/* Zoom Controls */}
-            <div className="cert-modal-zoom-group" role="group" aria-label="Zoom controls">
+            {/* Zoom & Pan Controls Group */}
+            <div className="cert-modal-zoom-group" role="group" aria-label="Zoom and Pan controls">
               <button
                 type="button"
                 className="cert-modal-tool-btn"
                 onClick={handleZoomOut}
                 disabled={zoomLevel <= 75}
-                title="Zoom Out"
+                title="Zoom Out (-)"
                 aria-label="Zoom Out"
               >
                 <ZoomOut size={15} />
               </button>
+
               <button
                 type="button"
                 className="cert-modal-zoom-val"
-                onClick={handleZoomReset}
-                title="Reset Zoom to 100%"
-                aria-label="Reset zoom to 100%"
+                onClick={handleResetView}
+                title="Click to reset zoom and center"
+                aria-label="Reset zoom and center"
               >
                 {zoomLevel}%
               </button>
+
               <button
                 type="button"
                 className="cert-modal-tool-btn"
                 onClick={handleZoomIn}
-                disabled={zoomLevel >= 200}
-                title="Zoom In"
+                disabled={zoomLevel >= 250}
+                title="Zoom In (+)"
                 aria-label="Zoom In"
               >
                 <ZoomIn size={15} />
               </button>
+
+              {/* Reset View Button (active when zoomed or panned) */}
+              {isTransformed && (
+                <button
+                  type="button"
+                  className="cert-modal-tool-btn cert-modal-tool-btn--reset"
+                  onClick={handleResetView}
+                  title="Reset Zoom & Center View"
+                  aria-label="Reset view"
+                >
+                  <RotateCcw size={13} />
+                </button>
+              )}
             </div>
 
             {/* Explicit, Accessible Close Button */}
@@ -255,29 +364,37 @@ export default function CertificateModal({
           </div>
         </header>
 
-        {/* Modal Body / Viewer: Flex-1, Min-H-0, Overflow-Hidden */}
+        {/* 2. Modal Body / Interactive Viewer Box */}
         <div
+          ref={viewerRef}
           className={`cert-modal-body ${
-            zoomLevel > 100 ? "cert-modal-body--zoomed" : ""
-          }`}
+            isDragging ? "cert-modal-body--dragging" : ""
+          } ${zoomLevel > 100 ? "cert-modal-body--zoomed" : ""}`}
+          onMouseDown={handleMouseDown}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          onWheel={handleWheel}
         >
           {loading ? (
             <div className="cert-modal-loading">
               <Loader2 size={36} className="cert-modal-spinner" />
-              <span className="cert-modal-loading-text">Loading certificate...</span>
+              <span className="cert-modal-loading-text">Loading certificate preview...</span>
             </div>
           ) : !renderError && highResUrl ? (
             <div
               className="cert-modal-viewport"
               style={{
-                transform: zoomLevel > 100 ? `scale(${zoomLevel / 100})` : undefined,
+                transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoomLevel / 100})`,
                 transformOrigin: "center center",
+                transition: isDragging ? "none" : "transform 0.15s ease-out",
               }}
             >
               <img
                 src={highResUrl}
                 alt={`Certificate document for ${title}`}
                 className="cert-modal-doc"
+                draggable={false}
               />
             </div>
           ) : (
@@ -290,9 +407,17 @@ export default function CertificateModal({
               />
             </div>
           )}
+
+          {/* Interactive Drag Hint (Visible when zoomed in) */}
+          {zoomLevel > 100 && (
+            <div className="cert-modal-pan-hint" aria-hidden="true">
+              <Move size={12} />
+              <span>Click &amp; drag to pan</span>
+            </div>
+          )}
         </div>
 
-        {/* Modal Footer Toolbar */}
+        {/* 3. Integrated Modal Footer Toolbar */}
         <footer className="cert-modal-footer">
           <div className="cert-modal-tags">
             {credentialId && (
@@ -362,6 +487,7 @@ export default function CertificateModal({
           </div>
         </footer>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

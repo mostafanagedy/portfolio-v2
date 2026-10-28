@@ -28,7 +28,6 @@ export default function CertificateCard({
     title,
     issuer,
     category,
-    credentialId,
     verifyUrl,
     format,
     githubUrl,
@@ -232,12 +231,12 @@ export default function CertificateCard({
           </div>
         )}
 
-        {/* 5. Available Actions */}
+        {/* 5. Available Actions: Primary View row (w-full) + Secondary sub-actions row */}
         <div className="cert-card__actions">
-          {/* Primary View Action (Prominent Orange) */}
+          {/* Primary View Action (Full Row / w-full) */}
           <button
             type="button"
-            className="btn cert-btn cert-btn--view"
+            className="btn cert-btn cert-btn--view cert-btn--full"
             onClick={() => onView(certificate)}
             aria-label={`View ${title}`}
           >
@@ -245,48 +244,51 @@ export default function CertificateCard({
             <span>View Certificate</span>
           </button>
 
-          {/* Verify Action (Only when genuine verification URL exists) */}
-          {verifyUrl && (
+          {/* Secondary Actions (Compact sub-row) */}
+          <div className="cert-card__sub-actions">
+            {/* Verify Action (Only when genuine verification URL exists) */}
+            {verifyUrl && (
+              <a
+                href={verifyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn cert-btn cert-btn--sub cert-btn--verify"
+                title="Verify credential on official registry"
+                onClick={handleDownloadClick}
+              >
+                <ShieldCheck size={13} />
+                <span>Verify</span>
+              </a>
+            )}
+
+            {/* Download Action (Only when allowed) */}
+            {allowDownload && (
+              <a
+                href={`/api/certificates/document?file=${encodeURIComponent(certificate.filename)}&download=1`}
+                download={certificate.filename}
+                className="btn cert-btn cert-btn--sub cert-btn--download"
+                onClick={handleDownloadClick}
+                aria-label={`Download ${title}`}
+                title="Download original certificate document"
+              >
+                <Download size={13} />
+                <span>Download</span>
+              </a>
+            )}
+
+            {/* Secondary GitHub Source Link */}
             <a
-              href={verifyUrl}
+              href={githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn cert-btn cert-btn--verify"
-              title="Verify credential on official registry"
+              className="cert-btn-icon cert-btn-icon--sub"
+              aria-label={`View file for ${title} on GitHub`}
+              title="View Original on GitHub"
               onClick={handleDownloadClick}
             >
-              <ShieldCheck size={13} />
-              <span>Verify</span>
+              <BrandIcons.GitHub size={15} />
             </a>
-          )}
-
-          {/* Download Action (Only when allowed) */}
-          {allowDownload && (
-            <a
-              href={`/api/certificates/document?file=${encodeURIComponent(certificate.filename)}&download=1`}
-              download={certificate.filename}
-              className="btn cert-btn cert-btn--download"
-              onClick={handleDownloadClick}
-              aria-label={`Download ${title}`}
-              title="Download original certificate document"
-            >
-              <Download size={13} />
-              <span>Download</span>
-            </a>
-          )}
-
-          {/* Secondary GitHub Source Link */}
-          <a
-            href={githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="cert-btn-icon"
-            aria-label={`View file for ${title} on GitHub`}
-            title="View Original on GitHub"
-            onClick={handleDownloadClick}
-          >
-            <BrandIcons.GitHub size={15} />
-          </a>
+          </div>
         </div>
       </div>
     </article>
