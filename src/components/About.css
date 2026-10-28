@@ -1,14 +1,44 @@
-/* ===== ABOUT ===== */
-.about__grid {
+/* ============================================================
+   ABOUT PAGE — PREMIUM TWO-COLUMN HERO REDESIGN
+   ============================================================ */
+
+.about-section {
+  position: relative;
+  width: 100%;
+  padding-block: 28px 36px;
+}
+
+.about-container {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+/* Two-Column Hero Layout */
+.about__layout {
   display: grid;
-  grid-template-columns: 1fr 340px;
+  grid-template-columns: 1.18fr 0.82fr;
   gap: 36px;
-  align-items: start;
+  align-items: center;
+}
+
+/* Left Column: Intro, Bio, CTA, and 2x2 Info Grid */
+.about__left {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.about__header {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
 .about__eyebrow {
   font-family: var(--font-display);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   color: var(--color-primary);
@@ -20,10 +50,8 @@
   font-size: 2.2rem;
   font-weight: 800;
   color: var(--color-text);
-  line-height: 1.18;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  line-height: 1.16;
+  margin: 0;
 }
 
 .about__title .text-accent {
@@ -31,28 +59,30 @@
 }
 
 .about__title-name {
+  display: block;
+  font-size: 1.95rem;
   color: var(--color-text);
 }
 
 .about__desc {
-  font-size: 0.92rem;
+  font-size: 0.90rem;
   color: var(--color-text-secondary);
-  line-height: 1.65;
+  line-height: 1.62;
   margin: 0;
-  max-width: 580px;
+  max-width: 620px;
 }
 
 /* Call to Action Button */
 .about__cta-row {
   display: flex;
   align-items: center;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .about__cta-btn {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   padding: 10px 22px;
   font-size: 0.88rem;
   font-weight: 700;
@@ -72,19 +102,19 @@
   transform: translateY(-2px);
 }
 
-/* 4 Cards (2x2 Grid) */
+/* 4 Compact Information Cards in a 2x2 Grid */
 .about__cards-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 .about__card {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 14px 16px;
+  padding: 13px 16px;
   background: #11161D;
   border: 1px solid #252C36;
   border-radius: var(--radius-lg, 12px);
@@ -99,17 +129,17 @@
 }
 
 .about__card-icon-box {
-  width: 38px;
-  height: 38px;
-  border-radius: var(--radius-sm, 6px);
-  background: var(--color-primary-glow);
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm, 8px);
+  background: rgba(255, 159, 10, 0.10);
   border: 1px solid rgba(255, 159, 10, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--color-primary);
   flex-shrink: 0;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 .about__card-content {
@@ -130,7 +160,7 @@
 
 .about__card-title {
   font-family: var(--font-display);
-  font-size: 0.96rem;
+  font-size: 0.94rem;
   font-weight: 700;
   color: var(--color-text);
   margin: 0;
@@ -144,79 +174,26 @@
   line-height: 1.35;
 }
 
-/* Footer Quote & Signature */
-.about__footer-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-top: 8px;
-  flex-wrap: wrap;
-}
-
-.about__quote {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.about__quote-bar {
-  width: 3px;
-  height: 28px;
-  background: var(--color-primary);
-  border-radius: 2px;
-  flex-shrink: 0;
-}
-
-.about__quote-text {
-  font-size: 0.84rem;
-  color: var(--color-text-secondary);
-  font-style: italic;
-  margin: 0;
-}
-
-.about__signature {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.about__signature-text {
-  font-family: "Brush Script MT", "Caveat", "Segoe Script", cursive;
-  font-size: 1.45rem;
-  color: var(--color-primary);
-  transform: rotate(-3deg);
-  line-height: 1;
-}
-
-.about__signature-underline {
-  width: 72px;
-  height: 2px;
-  background: var(--color-primary);
-  border-radius: 1px;
-  margin-top: 2px;
-  transform: rotate(-3deg);
-}
-
-/* Right Column: Hero Portrait */
+/* Right Column: Hero Standing Portrait */
 .about__right {
   display: flex;
   justify-content: center;
+  align-items: center;
   position: relative;
 }
 
 .about__portrait-container {
   position: relative;
   width: 100%;
-  max-width: 440px;
+  max-width: 420px;
 }
 
-/* Learning badge shown in light mode */
+/* Handwritten "Always Learning" Badge in Light Mode */
 .about__badge-learning {
   display: none;
   position: absolute;
-  top: -24px;
-  right: -8px;
+  top: -22px;
+  right: -6px;
   font-family: "Brush Script MT", "Caveat", "Segoe Script", cursive;
   font-size: 1.55rem;
   color: var(--color-primary);
@@ -234,12 +211,13 @@
 .about__portrait-frame {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 5;
-  border-radius: var(--radius-xl, 24px);
+  aspect-ratio: 4 / 5.2;
+  border-radius: var(--radius-xl, 22px);
   overflow: hidden;
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
   border: 1px solid var(--color-border);
   background: var(--color-surface);
+  transition: all var(--transition);
 }
 
 .about__portrait-img {
@@ -262,6 +240,62 @@
   transform: scale(1.03);
 }
 
+/* Slim Footer beneath the main section */
+.about__slim-footer {
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.about__quote {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.about__quote-bar {
+  width: 3px;
+  height: 26px;
+  background: var(--color-primary);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.about__quote-text {
+  font-size: 0.88rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  margin: 0;
+}
+
+.about__signature {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.about__signature-text {
+  font-family: "Brush Script MT", "Caveat", "Segoe Script", cursive;
+  font-size: 1.55rem;
+  color: var(--color-primary);
+  transform: rotate(-3deg);
+  line-height: 1;
+}
+
+.about__signature-underline {
+  width: 76px;
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: 1px;
+  margin-top: 2px;
+  transform: rotate(-3deg);
+}
+
 /* ========================================================
    LIGHT THEME ADAPTATIONS
    ======================================================== */
@@ -272,33 +306,6 @@
 [data-theme="light"] .about__portrait-img--dark {
   display: none !important;
 }
-[data-theme="light"] .about__card {
-  background: #FFFFFF;
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-card);
-}
-
-[data-theme="light"] .about__card:hover {
-  border-color: var(--color-primary);
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08), 0 0 16px var(--color-primary-glow);
-}
-
-[data-theme="light"] .about__card-label {
-  color: #8492A6;
-}
-
-[data-theme="light"] .about__card-title {
-  color: #172033;
-}
-
-[data-theme="light"] .about__card-subtitle {
-  color: #596579;
-}
-
-[data-theme="light"] .about__cta-btn {
-  color: #FFFFFF;
-}
-
 
 [data-theme="light"] .about__badge-learning {
   display: block;
@@ -306,13 +313,47 @@
 
 [data-theme="light"] .about__portrait-frame {
   border: 2px solid var(--color-primary);
-  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.10);
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.10);
+  background: #FFFFFF;
+}
+
+[data-theme="light"] .about__card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+}
+
+[data-theme="light"] .about__card:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08), 0 0 16px var(--color-primary-glow);
+}
+
+[data-theme="light"] .about__card-icon-box {
+  background: rgba(245, 158, 11, 0.10);
+  border-color: rgba(245, 158, 11, 0.30);
+  color: var(--color-primary);
+}
+
+[data-theme="light"] .about__card-label {
+  color: var(--color-text-muted);
+}
+
+[data-theme="light"] .about__card-title {
+  color: var(--color-text);
+}
+
+[data-theme="light"] .about__card-subtitle {
+  color: var(--color-text-secondary);
+}
+
+[data-theme="light"] .about__cta-btn {
+  color: #FFFFFF;
 }
 
 /* ========================================================
    RESPONSIVE DESIGN
    ======================================================== */
-@media (max-width: 1024px) {
+@media (max-width: 992px) {
   .about__layout {
     grid-template-columns: 1fr;
     gap: 32px;
@@ -325,13 +366,17 @@
   }
 
   .about__title {
-    font-size: 1.85rem;
+    font-size: 1.95rem;
+  }
+
+  .about__title-name {
+    font-size: 1.75rem;
   }
 }
 
 @media (max-width: 640px) {
   .about-section {
-    padding-block: 16px 28px;
+    padding-block: 20px 28px;
   }
 
   .about-container {
@@ -339,7 +384,11 @@
   }
 
   .about__title {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
+  }
+
+  .about__title-name {
+    font-size: 1.5rem;
   }
 
   .about__cards-grid {
@@ -347,9 +396,13 @@
     gap: 10px;
   }
 
-  .about__footer-row {
+  .about__slim-footer {
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
+    gap: 14px;
+  }
+
+  .about__signature {
+    align-self: flex-end;
   }
 }

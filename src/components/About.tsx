@@ -23,9 +23,9 @@ const cards = [
   },
   {
     icon: Briefcase,
-    label: "STATUS",
+    label: "AVAILABILITY",
     title: "Open to Opportunities",
-    subtitle: "Freelance / Full-time",
+    subtitle: "Freelance & Full-time",
   },
 ];
 
@@ -33,8 +33,9 @@ export default function About() {
   return (
     <section id="about" className="section about-section" aria-label="About Mostafa Nagdy">
       <div className="container about-container">
+        {/* Two-Column Hero Layout */}
         <div className="about__layout">
-          {/* Left Column: Bio & Info Grid */}
+          {/* Left Column: Introduction, Bio, CTA, and 2x2 Grid */}
           <div className="about__left">
             <div className="about__header">
               <span className="about__eyebrow">01 / ABOUT ME</span>
@@ -60,12 +61,12 @@ export default function About() {
               </Link>
             </div>
 
-            {/* 4 Cards (2x2 Grid) */}
+            {/* 4 Compact Information Cards (2x2 Grid) */}
             <div className="about__cards-grid">
               {cards.map(({ icon: Icon, label, title, subtitle }) => (
                 <div key={label} className="about__card">
                   <div className="about__card-icon-box" aria-hidden="true">
-                    <Icon size={20} className="about__card-icon" />
+                    <Icon size={18} className="about__card-icon" />
                   </div>
                   <div className="about__card-content">
                     <span className="about__card-label">{label}</span>
@@ -75,27 +76,12 @@ export default function About() {
                 </div>
               ))}
             </div>
-
-            {/* Bottom Quote & Signature */}
-            <div className="about__footer-row">
-              <div className="about__quote">
-                <span className="about__quote-bar" aria-hidden="true" />
-                <blockquote className="about__quote-text">
-                  “Turning ideas into real world applications.”
-                </blockquote>
-              </div>
-
-              <div className="about__signature" aria-label="Handwritten signature: Mostafa Nagdy">
-                <span className="about__signature-text">Mostafa Nagdy</span>
-                <span className="about__signature-underline" aria-hidden="true" />
-              </div>
-            </div>
           </div>
 
-          {/* Right Column: Hero Portrait */}
+          {/* Right Column: Large Full-Body Standing Portrait */}
           <div className="about__right">
             <div className="about__portrait-container">
-              {/* Light Mode Handwritten Badge */}
+              {/* Handwritten "Always Learning" Badge in Light Mode */}
               <div className="about__badge-learning" aria-hidden="true">
                 <span>Always</span>
                 <span className="about__badge-sub">Learning</span>
@@ -106,21 +92,36 @@ export default function About() {
                   src="/images/profile-standing-dark.jpg"
                   alt="Mostafa Nagdy — MERN Stack Developer (Dark Mode)"
                   className="about__portrait-img about__portrait-img--dark"
-                  loading="lazy"
+                  loading="eager"
                   width="440"
-                  height="520"
+                  height="580"
                 />
                 <img
                   src="/images/profile-standing-light.jpg"
                   alt="Mostafa Nagdy — MERN Stack Developer (Light Mode)"
                   className="about__portrait-img about__portrait-img--light"
-                  loading="lazy"
+                  loading="eager"
                   width="440"
-                  height="520"
+                  height="580"
                 />
                 <div className="about__portrait-border-glow" aria-hidden="true" />
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Slim Footer beneath the main section */}
+        <div className="about__slim-footer">
+          <div className="about__quote">
+            <span className="about__quote-bar" aria-hidden="true" />
+            <blockquote className="about__quote-text">
+              “Turning ideas into real world applications.”
+            </blockquote>
+          </div>
+
+          <div className="about__signature" aria-label="Handwritten signature: Mostafa Nagdy">
+            <span className="about__signature-text">Mostafa Nagdy</span>
+            <span className="about__signature-underline" aria-hidden="true" />
           </div>
         </div>
       </div>
