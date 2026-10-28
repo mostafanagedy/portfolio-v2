@@ -62,7 +62,17 @@ export function useCertificates() {
   const filteredCertificates = useMemo(() => {
     if (!data?.certificates) return [];
 
-    let list = [...data.certificates];
+    // Deduplicate certificates dynamically before applying filters
+    const dedupMap = new Map<string, CertificateItem>();
+    for (const item of data.certificates) {
+      const key = item.credentialId
+        ? `coursera-${item.credentialId.toLowerCase()}`
+        : `${item.issuer.toLowerCase()}:${item.title.toLowerCase().replace(/\s*\(\d+\)/g, "").replace(/\s+20\d\d/g, "").replace(/[^a-z0-9]/g, "")}`;
+      if (!dedupMap.has(key)) {
+        dedupMap.set(key, item);
+      }
+    }
+    let list = Array.from(dedupMap.values());
 
     // Filter by Category
     if (selectedCategory !== "All") {

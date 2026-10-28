@@ -1,6 +1,23 @@
 import { CertificateCategory } from "../types/certificate";
 
 /**
+ * Verified mappings from official Coursera credential IDs to human-readable course titles.
+ */
+export const KNOWN_COURSERA_TITLES: Record<string, string> = {
+  "0OT599ROI9WB": "Advanced Git and GitHub Practices",
+  "AES78H2QT46A": "Advanced DevOps Tools and Practices",
+  "EMP3VL4QSEIE": "Advanced React",
+  "FRDMNT5QB896": "Version Control with Git",
+  "G7L4WL2I20DZ": "React Basics",
+  "GQNZSX1DWHSL": "Coding Interview Preparation",
+  "NR8SY72NX4V9": "Principles of UX/UI Design",
+  "Q8XS94ONPAGY": "Foundations of DevOps and Git",
+  "SG1KDJJN4JLU": "Introduction to Front-End Development",
+  "UNDWNN0M0NU7": "Build Automation and Continuous Integration",
+  "ZWATD25QO1RP": "Delivering Quality Work with Agility",
+};
+
+/**
  * Individual certificate configuration overrides.
  * Keyed by stable repository filename or slug.
  */
@@ -76,7 +93,7 @@ export const certificatesConfig: CertificatesConfig = {
     // Featured Certificates (Displayed in Top Spotlight Section: Exactly 3 items)
     // -------------------------------------------------------------
     "Coursera 0OT599ROI9WB.pdf": {
-      displayTitle: "Coursera Verified Specialization Certificate (0OT599ROI9WB)",
+      displayTitle: "Advanced Git and GitHub Practices",
       featured: true,
       allowDownload: true,
       issuer: "Coursera",
@@ -111,7 +128,6 @@ export const certificatesConfig: CertificatesConfig = {
 
     // -------------------------------------------------------------
     // Controlled Downloads (Example: Restricted Download Certificates)
-    // Here allowDownload is set to false to demonstrate controlled UI permissions
     // -------------------------------------------------------------
     "CertificateOfCompletion_Personal Branding Strategies for People Who Hate the Spotlight with Goldie Chan.pdf": {
       allowDownload: false,
@@ -124,6 +140,7 @@ export const certificatesConfig: CertificatesConfig = {
       category: "LinkedIn Learning",
     },
     "Coursera SG1KDJJN4JLU.pdf": {
+      displayTitle: "Introduction to Front-End Development",
       allowDownload: false,
       verificationUrl: "https://www.coursera.org/verify/SG1KDJJN4JLU",
       issuer: "Coursera",
@@ -131,49 +148,58 @@ export const certificatesConfig: CertificatesConfig = {
     },
 
     // -------------------------------------------------------------
-    // Additional Genuine Coursera Verification URLs
+    // Human-Readable Coursera Titles with Official Verification URLs
     // -------------------------------------------------------------
     "Coursera AES78H2QT46A.pdf": {
+      displayTitle: "Advanced DevOps Tools and Practices",
       verificationUrl: "https://www.coursera.org/verify/AES78H2QT46A",
       allowDownload: true,
       issuer: "Coursera",
     },
     "Coursera EMP3VL4QSEIE.pdf": {
+      displayTitle: "Advanced React",
       verificationUrl: "https://www.coursera.org/verify/EMP3VL4QSEIE",
       allowDownload: true,
       issuer: "Coursera",
     },
     "Coursera FRDMNT5QB896.pdf": {
+      displayTitle: "Version Control with Git",
       verificationUrl: "https://www.coursera.org/verify/FRDMNT5QB896",
       allowDownload: true,
       issuer: "Coursera",
     },
     "Coursera G7L4WL2I20DZ.pdf": {
+      displayTitle: "React Basics",
       verificationUrl: "https://www.coursera.org/verify/G7L4WL2I20DZ",
       allowDownload: true,
       issuer: "Coursera",
     },
     "Coursera GQNZSX1DWHSL.pdf": {
+      displayTitle: "Coding Interview Preparation",
       verificationUrl: "https://www.coursera.org/verify/GQNZSX1DWHSL",
       allowDownload: true,
       issuer: "Coursera",
     },
     "Coursera NR8SY72NX4V9.pdf": {
+      displayTitle: "Principles of UX/UI Design",
       verificationUrl: "https://www.coursera.org/verify/NR8SY72NX4V9",
       allowDownload: true,
       issuer: "Coursera",
     },
     "Coursera Q8XS94ONPAGY.pdf": {
+      displayTitle: "Foundations of DevOps and Git",
       verificationUrl: "https://www.coursera.org/verify/Q8XS94ONPAGY",
       allowDownload: true,
       issuer: "Coursera",
     },
     "Coursera UNDWNN0M0NU7.pdf": {
+      displayTitle: "Build Automation and Continuous Integration",
       verificationUrl: "https://www.coursera.org/verify/UNDWNN0M0NU7",
       allowDownload: true,
       issuer: "Coursera",
     },
     "Coursera ZWATD25QO1RP.pdf": {
+      displayTitle: "Delivering Quality Work with Agility",
       verificationUrl: "https://www.coursera.org/verify/ZWATD25QO1RP",
       allowDownload: true,
       issuer: "Coursera",

@@ -79,23 +79,45 @@
 
 /* Fallback state when rendering cannot proceed */
 .cert-thumb-fallback {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   padding: 16px;
   text-align: center;
-  color: var(--text-muted, #888);
+  background: radial-gradient(circle at center, rgba(30, 35, 45, 0.95), rgba(12, 16, 22, 0.98));
+}
+
+.cert-thumb-fallback-emblem {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 161, 22, 0.12);
+  border: 1px solid rgba(255, 161, 22, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2px;
 }
 
 .cert-thumb-fallback-icon {
   color: var(--accent-primary, #ffa116);
-  opacity: 0.7;
+}
+
+.cert-thumb-fallback-issuer {
+  font-size: 0.70rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-primary, #ffa116);
+  opacity: 0.85;
 }
 
 .cert-thumb-fallback-title {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 600;
   color: var(--text-primary, #fff);
   max-width: 90%;
@@ -105,7 +127,8 @@
 }
 
 .cert-thumb-fallback-sub {
-  font-size: 0.75rem;
+  font-size: 0.70rem;
+  color: var(--text-muted, #888);
   display: inline-flex;
   align-items: center;
   gap: 4px;

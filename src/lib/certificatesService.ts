@@ -1,5 +1,5 @@
 import { CertificateItem, CertificatesResponse, CertificateCategory } from "../types/certificate";
-import { certificatesConfig } from "../config/certificatesConfig";
+import { certificatesConfig, KNOWN_COURSERA_TITLES } from "../config/certificatesConfig";
 import {
   getCachedCertificates,
   setCachedCertificates,
@@ -217,7 +217,8 @@ function parseCertificateItem(
     if (match && match[1]) {
       credentialId = match[1];
       verifyUrl = `https://www.coursera.org/verify/${credentialId}`;
-      title = `Coursera Verified Certificate (${credentialId})`;
+      const mappedTitle = KNOWN_COURSERA_TITLES[credentialId];
+      title = mappedTitle || `Coursera Verified Certificate (${credentialId})`;
     } else {
       title = filename.replace(/\.pdf$/i, "").trim();
     }
@@ -323,25 +324,47 @@ export async function fetchCertificatesFromGitHub(forceRefresh = false): Promise
   const rawItems = treeData.tree || [];
 
   // Parse certificates
-  const certificates: CertificateItem[] = [];
-  const slugCounts = new Map<string, number>();
+  const rawCertificates: CertificateItem[] = [];
 
   rawItems.forEach((item, index) => {
     if (item.type !== "blob") return;
     const parsed = parseCertificateItem(item, index, owner, repo, defaultBranch);
     if (!parsed) return;
-
-    // Ensure slugs remain completely unique
-    let finalSlug = parsed.slug;
-    const count = slugCounts.get(finalSlug) || 0;
-    if (count > 0) {
-      finalSlug = `${parsed.slug}-${count + 1}`;
-    }
-    slugCounts.set(parsed.slug, count + 1);
-
-    parsed.slug = finalSlug;
-    certificates.push(parsed);
+    rawCertificates.push(parsed);
   });
+
+  // Deduplicate certificates dynamically:
+  // 1. By credentialId (for Coursera)
+  // 2. By normalized title + issuer (ignoring duplicate numbers like (1), (2), (4), (5) or duplicate year tags)
+  const dedupMap = new Map<string, CertificateItem>();
+
+  for (const cert of rawCertificates) {
+    let key: string;
+    if (cert.credentialId) {
+      key = `coursera:${cert.credentialId.toLowerCase()}`;
+    } else {
+      const normalized = cert.title
+        .toLowerCase()
+        .replace(/\s*\(\d+\)/g, "")
+        .replace(/\s+20\d\d/g, "")
+        .replace(/[^a-z0-9]/g, "");
+      key = `${cert.issuer.toLowerCase()}:${normalized}`;
+    }
+
+    if (!dedupMap.has(key)) {
+      dedupMap.set(key, cert);
+    } else {
+      const existing = dedupMap.get(key)!;
+      // Prefer item with featured: true, or shorter/cleaner filename without (1)
+      if (!existing.featured && cert.featured) {
+        dedupMap.set(key, cert);
+      } else if (cert.filename.length < existing.filename.length) {
+        dedupMap.set(key, cert);
+      }
+    }
+  }
+
+  const certificates = Array.from(dedupMap.values());
 
   // Sort certificates alphabetically by title
   certificates.sort((a, b) => a.title.localeCompare(b.title));

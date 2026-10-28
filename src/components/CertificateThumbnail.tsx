@@ -71,13 +71,22 @@ export default function CertificateThumbnail({
       return;
     }
 
-    // For PDFs, render the first page
+    // For PDFs, render the first page with safety timer
     let isCancelled = false;
     setLoading(true);
     setError(false);
 
+    // Hard fallback timeout to guarantee cards never hang indefinitely
+    const safetyTimer = setTimeout(() => {
+      if (!isCancelled && !dataUrl) {
+        setError(true);
+        setLoading(false);
+      }
+    }, 4500);
+
     renderPdfFirstPage(certificate.documentUrl, 420)
       .then((url) => {
+        clearTimeout(safetyTimer);
         if (!isCancelled) {
           setDataUrl(url);
           setLoading(false);
@@ -85,8 +94,8 @@ export default function CertificateThumbnail({
         }
       })
       .catch((err) => {
+        clearTimeout(safetyTimer);
         if (!isCancelled) {
-          console.warn(`[CertificateThumbnail] Fallback for ${certificate.filename}:`, err);
           setError(true);
           setLoading(false);
         }
@@ -94,8 +103,9 @@ export default function CertificateThumbnail({
 
     return () => {
       isCancelled = true;
+      clearTimeout(safetyTimer);
     };
-  }, [inView, certificate.filename, certificate.documentUrl, certificate.format]);
+  }, [inView, certificate.filename, certificate.documentUrl, certificate.format, dataUrl]);
 
   return (
     <div
@@ -109,7 +119,7 @@ export default function CertificateThumbnail({
         <div className="cert-thumb-skeleton" aria-label="Loading certificate preview">
           <div className="cert-thumb-skeleton-spinner">
             <Loader2 size={24} className="cert-thumb-spinner-icon" />
-            <span className="cert-thumb-loading-text">Rendering document...</span>
+            <span className="cert-thumb-loading-text">Rendering preview...</span>
           </div>
         </div>
       )}
@@ -118,20 +128,23 @@ export default function CertificateThumbnail({
       {!loading && !error && dataUrl && (
         <img
           src={dataUrl}
-          alt={`Real preview of ${certificate.title}`}
+          alt={`Preview of ${certificate.title}`}
           className="cert-thumb-img"
           loading={priority ? "eager" : "lazy"}
           decoding="async"
         />
       )}
 
-      {/* Fallback only if rendering encounters an error */}
-      {error && (
-        <div className="cert-thumb-fallback" aria-label="Certificate preview unavailable">
-          <Award size={32} className="cert-thumb-fallback-icon" />
+      {/* Fallback state with sleek stylized document badge */}
+      {error && !loading && (
+        <div className="cert-thumb-fallback" aria-label="Certificate document preview">
+          <div className="cert-thumb-fallback-emblem">
+            <Award size={26} className="cert-thumb-fallback-icon" />
+          </div>
+          <span className="cert-thumb-fallback-issuer">{certificate.issuer}</span>
           <span className="cert-thumb-fallback-title">{certificate.title}</span>
           <span className="cert-thumb-fallback-sub">
-            <FileText size={12} /> {certificate.format.toUpperCase()} Document
+            <FileText size={11} /> {certificate.format.toUpperCase()} Document
           </span>
         </div>
       )}
