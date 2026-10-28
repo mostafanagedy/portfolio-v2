@@ -61,7 +61,7 @@
 
 /* Header */
 .certs-header {
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 
 .certs-header__top-row {
@@ -190,12 +190,70 @@
   color: var(--color-text-muted);
 }
 
+/* Informative Repo Status Note */
+.certs-repo-note {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.22);
+  border-radius: 10px;
+  font-size: 0.82rem;
+  color: #34d399;
+  margin-bottom: 24px;
+}
+
+.certs-repo-note__icon {
+  flex-shrink: 0;
+}
+
+/* Featured Certificates Spotlight Section */
+.certs-featured-section {
+  margin-bottom: 36px;
+  padding: 24px;
+  background: linear-gradient(135deg, rgba(255, 161, 22, 0.05) 0%, rgba(17, 22, 29, 0.70) 100%);
+  border: 1px solid rgba(255, 161, 22, 0.20);
+  border-radius: var(--radius-xl, 18px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.40);
+}
+
+.certs-featured-header {
+  margin-bottom: 20px;
+}
+
+.certs-featured-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.certs-featured-title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.certs-featured-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
 /* Toolbar: Search, Filters, and Sorting */
 .certs-toolbar {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
   padding: 16px 20px;
   background: rgba(17, 22, 29, 0.60);
   border: 1px solid rgba(255, 255, 255, 0.07);
@@ -206,7 +264,7 @@
 .certs-toolbar__row {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
@@ -214,7 +272,7 @@
 .certs-search-box {
   position: relative;
   flex: 1;
-  min-width: 260px;
+  min-width: 240px;
   display: flex;
   align-items: center;
 }
@@ -259,7 +317,8 @@
   color: var(--color-text);
 }
 
-/* Sort Select Box */
+/* Issuer & Sort Select Boxes */
+.certs-filter-select-box,
 .certs-sort-box {
   position: relative;
   display: flex;
@@ -295,6 +354,38 @@
 .certs-sort-select:focus {
   outline: none;
   border-color: var(--color-primary);
+}
+
+/* View Mode Switcher Group (Grid vs List) */
+.certs-viewmode-group {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.certs-viewmode-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.certs-viewmode-btn:hover {
+  color: var(--color-text);
+}
+
+.certs-viewmode-btn--active {
+  background: rgba(255, 161, 22, 0.16);
+  color: var(--color-primary);
 }
 
 /* Category Filter Pills */
@@ -355,10 +446,18 @@
   margin-bottom: 18px;
   font-size: 0.84rem;
   color: var(--color-text-muted);
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .certs-results-bar strong {
   color: var(--color-text);
+}
+
+.certs-active-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .certs-active-filter-badge {
@@ -371,11 +470,57 @@
   border: 1px solid rgba(255, 161, 22, 0.25);
 }
 
-/* Certificates Grid */
+/* Certificates Layout Modes: Grid vs List */
 .certs-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 22px;
+}
+
+.certs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Load More Pagination Container */
+.certs-loadmore-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 36px;
+  padding-top: 20px;
+}
+
+.certs-loadmore-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 28px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all var(--transition);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.30);
+}
+
+.certs-loadmore-btn:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 16px rgba(255, 161, 22, 0.15);
+}
+
+.certs-loadmore-count {
+  font-size: 0.74rem;
+  color: var(--color-primary);
+  background: rgba(255, 161, 22, 0.12);
+  padding: 2px 8px;
+  border-radius: 6px;
 }
 
 /* Skeletons */
@@ -390,7 +535,7 @@
 
 .cert-skeleton-preview {
   width: 100%;
-  aspect-ratio: 16 / 9.5;
+  aspect-ratio: 16 / 9.8;
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.02) 25%, rgba(255, 255, 255, 0.06) 50%, rgba(255, 255, 255, 0.02) 75%);
   background-size: 200% 100%;
   animation: certSkeletonShimmer 1.5s infinite;
@@ -520,6 +665,18 @@
   border-color: rgba(15, 23, 42, 0.08);
 }
 
+[data-theme="light"] .certs-repo-note {
+  background: #ECFDF5;
+  border-color: #A7F3D0;
+  color: #065F46;
+}
+
+[data-theme="light"] .certs-featured-section {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, #FFFFFF 100%);
+  border-color: rgba(245, 158, 11, 0.25);
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+}
+
 [data-theme="light"] .certs-toolbar {
   background: #FFFFFF;
   border-color: rgba(15, 23, 42, 0.10);
@@ -536,6 +693,11 @@
 [data-theme="light"] .certs-search-input:focus,
 [data-theme="light"] .certs-sort-select:focus {
   background: #FFFFFF;
+}
+
+[data-theme="light"] .certs-viewmode-group {
+  background: #F1F5F9;
+  border-color: #CBD5E1;
 }
 
 [data-theme="light"] .certs-pill {
@@ -559,6 +721,17 @@
   background: rgba(15, 23, 42, 0.06);
 }
 
+[data-theme="light"] .certs-loadmore-btn {
+  background: #FFFFFF;
+  border-color: #CBD5E1;
+  color: #1E293B;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+}
+
+[data-theme="light"] .certs-loadmore-btn:hover {
+  background: #F8FAFC;
+}
+
 [data-theme="light"] .certs-card-skeleton {
   background: #FFFFFF;
   border-color: rgba(15, 23, 42, 0.08);
@@ -579,6 +752,12 @@
 /* ========================================================
    RESPONSIVE DESIGN (320px - 1440px+)
    ======================================================== */
+@media (max-width: 1200px) {
+  .certs-featured-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 1024px) {
   .certs-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -596,16 +775,22 @@
     align-items: stretch;
   }
 
-  .certs-search-box {
-    width: 100%;
-  }
-
+  .certs-search-box,
+  .certs-filter-select-box,
   .certs-sort-box {
     width: 100%;
   }
 
   .certs-sort-select {
     width: 100%;
+  }
+
+  .certs-featured-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .certs-viewmode-group {
+    align-self: flex-end;
   }
 }
 
@@ -639,6 +824,10 @@
   .certs-action-btn {
     flex: 1;
     justify-content: center;
+  }
+
+  .certs-featured-section {
+    padding: 16px;
   }
 
   .certs-grid {

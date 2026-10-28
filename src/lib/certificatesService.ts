@@ -1,12 +1,11 @@
 import { CertificateItem, CertificatesResponse, CertificateCategory } from "../types/certificate";
+import { certificatesConfig } from "../config/certificatesConfig";
 import {
   getCachedCertificates,
   setCachedCertificates,
   invalidateCertificatesCache,
 } from "./cacheManager";
 
-const GITHUB_USERNAME = "mostafanagedy";
-const REPO_NAME = "my_Certificates";
 const GITHUB_API_BASE = "https://api.github.com";
 
 interface GitTreeItem {
@@ -23,6 +22,92 @@ interface GitTreeResponse {
   url: string;
   tree: GitTreeItem[];
   truncated: boolean;
+}
+
+export interface ResolvedRepoSource {
+  owner: string;
+  repo: string;
+  defaultBranch: string;
+  sourceUrl: string;
+  intendedUrl: string;
+  repoNote?: string;
+}
+
+let cachedResolvedSource: ResolvedRepoSource | null = null;
+
+/**
+ * Resolves repository owner & repository name according to Requirement 2:
+ * Attempts the user's intended repository first (mostafanagy/my_Certificates),
+ * verifies availability, and safely falls back to mostafanagedy/my_Certificates if unavailable.
+ */
+export async function resolveRepositorySource(): Promise<ResolvedRepoSource> {
+  if (cachedResolvedSource) return cachedResolvedSource;
+
+  const headers: Record<string, string> = {
+    Accept: "application/vnd.github.v3+json",
+    "User-Agent": "MostafaNagdy-Portfolio/1.0",
+  };
+  if (process.env.GITHUB_TOKEN) {
+    headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+  }
+
+  // Parse intended repo URL
+  const intendedMatch = certificatesConfig.intendedRepoUrl.match(/github\.com\/([^/]+)\/([^/]+)/);
+  const fallbackMatch = certificatesConfig.fallbackRepoUrl.match(/github\.com\/([^/]+)\/([^/]+)/);
+
+  const intendedOwner = intendedMatch ? intendedMatch[1] : "mostafanagy";
+  const intendedRepo = intendedMatch ? intendedMatch[2] : "my_Certificates";
+
+  const fallbackOwner = fallbackMatch ? fallbackMatch[1] : "mostafanagedy";
+  const fallbackRepo = fallbackMatch ? fallbackMatch[2] : "my_Certificates";
+
+  // Check intended repository
+  try {
+    const res = await fetch(`${GITHUB_API_BASE}/repos/${intendedOwner}/${intendedRepo}`, {
+      headers,
+      cache: "no-store",
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      cachedResolvedSource = {
+        owner: intendedOwner,
+        repo: intendedRepo,
+        defaultBranch: data.default_branch || "main",
+        sourceUrl: `https://github.com/${intendedOwner}/${intendedRepo}`,
+        intendedUrl: certificatesConfig.intendedRepoUrl,
+      };
+      return cachedResolvedSource;
+    }
+  } catch (error) {
+    console.warn("[CertificatesService] Failed checking intended repo:", error);
+  }
+
+  // Intended returned 404 or failed — fall back to verified repository
+  let defaultBranch = "main";
+  try {
+    const res = await fetch(`${GITHUB_API_BASE}/repos/${fallbackOwner}/${fallbackRepo}`, {
+      headers,
+      cache: "no-store",
+    });
+    if (res.ok) {
+      const data = await res.json();
+      defaultBranch = data.default_branch || "main";
+    }
+  } catch (err) {
+    console.warn("[CertificatesService] Fallback repo metadata fetch warning:", err);
+  }
+
+  cachedResolvedSource = {
+    owner: fallbackOwner,
+    repo: fallbackRepo,
+    defaultBranch,
+    sourceUrl: `https://github.com/${fallbackOwner}/${fallbackRepo}`,
+    intendedUrl: certificatesConfig.intendedRepoUrl,
+    repoNote: `The specified target repository (${certificatesConfig.intendedRepoUrl}) is unavailable or private; automatically serving verified certificate data from ${fallbackOwner}/${fallbackRepo}.`,
+  };
+
+  return cachedResolvedSource;
 }
 
 /**
@@ -81,7 +166,13 @@ function generateCertificateSlug(filename: string, index: number): string {
 /**
  * Parses raw git tree blob into a structured CertificateItem
  */
-function parseCertificateItem(item: GitTreeItem, index: number, defaultBranch: string): CertificateItem | null {
+function parseCertificateItem(
+  item: GitTreeItem,
+  index: number,
+  owner: string,
+  repo: string,
+  defaultBranch: string
+): CertificateItem | null {
   const filename = item.path;
   const lower = filename.toLowerCase();
 
@@ -136,14 +227,30 @@ function parseCertificateItem(item: GitTreeItem, index: number, defaultBranch: s
     title = filename.replace(/\.pdf$/i, "").trim();
   }
 
+  // Apply configuration overrides if defined for this file
+  const override =
+    certificatesConfig.overrides[filename] ||
+    certificatesConfig.overrides[item.path] ||
+    certificatesConfig.overrides[generateCertificateSlug(filename, index)];
+
+  if (override?.displayTitle) title = override.displayTitle;
+  if (override?.issuer) issuer = override.issuer;
+  if (override?.category) category = override.category;
+  if (override?.verificationUrl) verifyUrl = override.verificationUrl;
+
+  const allowDownload = override?.allowDownload ?? certificatesConfig.defaultAllowDownload;
+  const featured = Boolean(override?.featured);
+  const issueDate = override?.issueDate;
+
   const format: "pdf" | "image" | "document" = lower.endsWith(".pdf")
     ? "pdf"
     : lower.endsWith(".png") || lower.endsWith(".jpg") || lower.endsWith(".jpeg")
     ? "image"
     : "document";
 
-  const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/${defaultBranch}/${encodeURIComponent(filename)}`;
-  const githubUrl = `https://github.com/${GITHUB_USERNAME}/${REPO_NAME}/blob/${defaultBranch}/${encodeURIComponent(filename)}`;
+  const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${defaultBranch}/${encodeURIComponent(filename)}`;
+  const githubUrl = `https://github.com/${owner}/${repo}/blob/${defaultBranch}/${encodeURIComponent(filename)}`;
+  const documentUrl = `/api/certificates/document?file=${encodeURIComponent(filename)}`;
   const baseSlug = generateCertificateSlug(filename, index);
 
   return {
@@ -160,37 +267,13 @@ function parseCertificateItem(item: GitTreeItem, index: number, defaultBranch: s
     format,
     rawUrl,
     githubUrl,
+    documentUrl,
     tags: extractCertificateTags(title, issuer),
     sha: item.sha,
+    allowDownload,
+    featured,
+    issueDate,
   };
-}
-
-/**
- * Retrieves repository default branch dynamically
- */
-async function getRepoDefaultBranch(): Promise<string> {
-  try {
-    const headers: Record<string, string> = {
-      Accept: "application/vnd.github.v3+json",
-      "User-Agent": "MostafaNagdy-Portfolio/1.0",
-    };
-    if (process.env.GITHUB_TOKEN) {
-      headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
-    }
-
-    const res = await fetch(`${GITHUB_API_BASE}/repos/${GITHUB_USERNAME}/${REPO_NAME}`, {
-      headers,
-      next: { revalidate: 3600 },
-    });
-
-    if (res.ok) {
-      const data = await res.json();
-      return data.default_branch || "main";
-    }
-  } catch (error) {
-    console.warn("[CertificatesService] Failed to retrieve default branch, falling back to 'main':", error);
-  }
-  return "main";
 }
 
 /**
@@ -207,7 +290,8 @@ export async function fetchCertificatesFromGitHub(forceRefresh = false): Promise
     invalidateCertificatesCache("User triggered manual refresh");
   }
 
-  const defaultBranch = await getRepoDefaultBranch();
+  const { owner, repo, defaultBranch, sourceUrl, intendedUrl, repoNote } =
+    await resolveRepositorySource();
 
   const headers: Record<string, string> = {
     Accept: "application/vnd.github.v3+json",
@@ -217,7 +301,7 @@ export async function fetchCertificatesFromGitHub(forceRefresh = false): Promise
     headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
   }
 
-  const treeUrl = `${GITHUB_API_BASE}/repos/${GITHUB_USERNAME}/${REPO_NAME}/git/trees/${defaultBranch}?recursive=1`;
+  const treeUrl = `${GITHUB_API_BASE}/repos/${owner}/${repo}/git/trees/${defaultBranch}?recursive=1`;
   const res = await fetch(treeUrl, {
     headers,
     cache: "no-store",
@@ -244,10 +328,10 @@ export async function fetchCertificatesFromGitHub(forceRefresh = false): Promise
 
   rawItems.forEach((item, index) => {
     if (item.type !== "blob") return;
-    const parsed = parseCertificateItem(item, index, defaultBranch);
+    const parsed = parseCertificateItem(item, index, owner, repo, defaultBranch);
     if (!parsed) return;
 
-    // Ensure slugs remain completely unique even if filenames have similar bases
+    // Ensure slugs remain completely unique
     let finalSlug = parsed.slug;
     const count = slugCounts.get(finalSlug) || 0;
     if (count > 0) {
@@ -262,14 +346,35 @@ export async function fetchCertificatesFromGitHub(forceRefresh = false): Promise
   // Sort certificates alphabetically by title
   certificates.sort((a, b) => a.title.localeCompare(b.title));
 
+  // Determine Featured Certificates (up to 4)
+  let featuredCertificates = certificates.filter((c) => c.featured);
+  if (featuredCertificates.length === 0) {
+    // Graceful fallback to prominent diverse certificates
+    const courseraCert = certificates.find((c) => c.category === "Coursera");
+    const jsCert = certificates.find((c) => c.title.toLowerCase().includes("javascript"));
+    const agileCert = certificates.find((c) => c.title.toLowerCase().includes("agile"));
+    const workshopCert = certificates.find((c) => c.category === "Workshops & Training");
+    featuredCertificates = [courseraCert, jsCert, agileCert, workshopCert].filter(Boolean) as CertificateItem[];
+  }
+  featuredCertificates = featuredCertificates.slice(0, 4);
+
   const categories = ["All", "LinkedIn Learning", "Coursera", "Workshops & Training"];
+
+  // Unique Issuers
+  const issuerSet = new Set<string>(["All Issuers"]);
+  certificates.forEach((c) => issuerSet.add(c.issuer));
+  const issuers = Array.from(issuerSet);
 
   const response: CertificatesResponse = {
     certificates,
+    featuredCertificates,
     total: certificates.length,
     categories,
+    issuers,
     cachedAt: new Date().toISOString(),
-    sourceRepo: `https://github.com/${GITHUB_USERNAME}/${REPO_NAME}`,
+    sourceRepo: sourceUrl,
+    requestedRepo: intendedUrl,
+    repoNote,
     isStale: false,
   };
 

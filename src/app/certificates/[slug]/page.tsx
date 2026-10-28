@@ -113,14 +113,16 @@ export default async function CertificateDetailPage({ params }: CertificatePageP
 
           {/* Action CTAs */}
           <div className="cert-detail-cta-row">
-            <a
-              href={rawUrl}
-              download={filename}
-              className="btn btn--primary cert-detail-cta-btn"
-            >
-              <Download size={16} />
-              <span>Download Certificate</span>
-            </a>
+            {cert.allowDownload && (
+              <a
+                href={`/api/certificates/document?file=${encodeURIComponent(filename)}&download=1`}
+                download={filename}
+                className="btn btn--primary cert-detail-cta-btn"
+              >
+                <Download size={16} />
+                <span>Download Certificate</span>
+              </a>
+            )}
 
             {verifyUrl && (
               <a
@@ -136,6 +138,17 @@ export default async function CertificateDetailPage({ params }: CertificatePageP
             )}
 
             <a
+              href={cert.documentUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn cert-detail-btn-secondary"
+              title="Open full document in new tab"
+            >
+              <ExternalLink size={15} />
+              <span>Open Document</span>
+            </a>
+
+            <a
               href={githubUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -144,7 +157,6 @@ export default async function CertificateDetailPage({ params }: CertificatePageP
             >
               <BrandIcons.GitHub size={16} />
               <span>View on GitHub</span>
-              <ExternalLink size={13} />
             </a>
           </div>
         </header>
@@ -159,7 +171,7 @@ export default async function CertificateDetailPage({ params }: CertificatePageP
             </div>
             <span className="cert-detail-viewer-title">{filename}</span>
             <a
-              href={rawUrl}
+              href={cert.documentUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="cert-detail-viewer-ext"
@@ -172,13 +184,13 @@ export default async function CertificateDetailPage({ params }: CertificatePageP
           <div className="cert-detail-frame-wrap">
             {format === "pdf" ? (
               <iframe
-                src={`${rawUrl}#toolbar=0&navpanes=0`}
+                src={`${cert.documentUrl}#toolbar=0&navpanes=0`}
                 title={`${title} PDF Preview`}
                 className="cert-detail-iframe"
               />
             ) : (
               <div className="cert-detail-img-wrap">
-                <img src={rawUrl} alt={title} className="cert-detail-img" />
+                <img src={cert.documentUrl} alt={title} className="cert-detail-img" />
               </div>
             )}
           </div>
