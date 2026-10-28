@@ -5,21 +5,21 @@ export const socialLinks = {
   whatsappDisplay: "@Nagedy",
   linkedin: "https://www.linkedin.com/in/mostafa-nagdey/",
   github: "https://github.com/mostafanagedy",
-  tiktok: "https://www.tiktok.com/@nagedy",
-  youtube: "https://www.youtube.com/@nagedy",
-  instagram: "https://www.instagram.com/nagedy",
-  facebook: "https://www.facebook.com/nagedy",
+  tiktok: "https://www.tiktok.com/@mostafanagedy1?lang=en",
+  youtube: "https://www.youtube.com/@mostafanagedy",
+  instagram: "https://www.instagram.com/mostafanagedy/",
+  facebook: "https://www.facebook.com/mostafa.nagedy.2025",
   discord: "https://discord.com/users/nagedy",
-  twitter: "https://x.com/nagedy",
+  twitter: "https://x.com/nagedy010",
 };
 
 export const followUsOn = [
-  { name: "TikTok", url: "https://www.tiktok.com/@nagedy", handle: "@Nagedy", iconKey: "TikTok" as const },
-  { name: "YouTube", url: "https://www.youtube.com/@nagedy", handle: "@Nagedy", iconKey: "YouTube" as const },
-  { name: "Instagram", url: "https://www.instagram.com/nagedy", handle: "@Nagedy", iconKey: "Instagram" as const },
-  { name: "Facebook", url: "https://www.facebook.com/nagedy", handle: "@Nagedy", iconKey: "Facebook" as const },
-  { name: "Discord", url: "https://discord.com/users/nagedy", handle: "@Nagedy", iconKey: "Discord" as const },
-  { name: "X", url: "https://x.com/nagedy", handle: "@Nagedy", iconKey: "XTwitter" as const },
+  { name: "TikTok", url: "https://www.tiktok.com/@mostafanagedy1?lang=en", handle: "@mostafanagedy1", iconKey: "TikTok" as const },
+  { name: "YouTube", url: "https://www.youtube.com/@mostafanagedy", handle: "@mostafanagedy", iconKey: "YouTube" as const },
+  { name: "Instagram", url: "https://www.instagram.com/mostafanagedy/", handle: "@mostafanagedy", iconKey: "Instagram" as const },
+  { name: "Facebook", url: "https://www.facebook.com/mostafa.nagedy.2025", handle: "mostafa.nagedy.2025", iconKey: "Facebook" as const },
+  { name: "Discord", url: "https://discord.com/users/nagedy", handle: "@nagedy", iconKey: "Discord" as const },
+  { name: "X", url: "https://x.com/nagedy010", handle: "@nagedy010", iconKey: "XTwitter" as const },
 ];
 
 export const freelancePlatforms = [

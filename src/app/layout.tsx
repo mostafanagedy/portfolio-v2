@@ -118,6 +118,11 @@ export default function RootLayout({
     sameAs: [
       "https://github.com/mostafanagedy",
       "https://www.linkedin.com/in/mostafa-nagdey/",
+      "https://www.tiktok.com/@mostafanagedy1?lang=en",
+      "https://www.instagram.com/mostafanagedy/",
+      "https://www.facebook.com/mostafa.nagedy.2025",
+      "https://x.com/nagedy010",
+      "https://www.youtube.com/@mostafanagedy",
       "https://nafezly.com/u/mostafa_nagedy",
       "https://mostaql.com/u/mostafanajdy",
     ],
