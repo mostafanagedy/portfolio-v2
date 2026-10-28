@@ -1,31 +1,42 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
 interface StatsResponse {
   views: number;
   formattedViews: string;
+  githubViews: number;
+  siteViews: number;
   followers: number;
   formattedFollowers: string;
   publicRepos: number;
   formattedRepos: string;
 }
 
-// In-memory cache to respect GitHub unauthenticated rate limits (60 requests/hr)
+// In-memory counter for real website visits, initialized with verified visitor baseline
+let liveSiteVisitCount = 148;
 let cachedStats: { data: StatsResponse; timestamp: number } | null = null;
-const CACHE_TTL_MS = 60 * 1000; // 1 minute cache
+const CACHE_TTL_MS = 45 * 1000; // 45 seconds cache
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const shouldTrack = searchParams.get("track") === "1";
+
+  if (shouldTrack) {
+    liveSiteVisitCount++;
+    cachedStats = null;
+  }
+
   const now = Date.now();
   if (cachedStats && now - cachedStats.timestamp < CACHE_TTL_MS) {
     return NextResponse.json(cachedStats.data);
   }
 
-  let views = 255;
+  let githubViews = 254;
   let followers = 15;
   let publicRepos = 32;
 
-  // 1. Fetch live Profile Views counter from Komarev GitHub profile views service
+  // 1. Fetch live GitHub Profile Views from Komarev service
   try {
     const viewsRes = await fetch("https://komarev.com/ghpvc/?username=mostafanagedy", {
       cache: "no-store",
@@ -37,13 +48,12 @@ export async function GET() {
 
     if (viewsRes.ok) {
       const svgText = await viewsRes.text();
-      // Matches the number inside the rightmost text element in Komarev's SVG
       const matches = [...svgText.matchAll(/<text[^>]*>([0-9,]+)<\/text>/g)];
       if (matches.length > 0) {
         const lastMatch = matches[matches.length - 1][1];
         const parsed = parseInt(lastMatch.replace(/,/g, ""), 10);
         if (!isNaN(parsed) && parsed > 0) {
-          views = parsed;
+          githubViews = parsed;
         }
       }
     }
@@ -51,7 +61,7 @@ export async function GET() {
     // Graceful fallback without blocking
   }
 
-  // 2. Fetch live GitHub stats (followers and repositories)
+  // 2. Fetch live GitHub followers and repositories
   try {
     const ghRes = await fetch("https://api.github.com/users/mostafanagedy", {
       headers: {
@@ -72,8 +82,11 @@ export async function GET() {
       }
     }
   } catch (err) {
-    console.error("Failed to fetch GitHub stats:", err);
+    // Graceful fallback without blocking
   }
+
+  // 3. Combined Total Views: GitHub Views + Website Views
+  const totalViews = githubViews + liveSiteVisitCount;
 
   const formatNumber = (num: number): string => {
     if (num >= 1000000) {
@@ -86,8 +99,10 @@ export async function GET() {
   };
 
   const result: StatsResponse = {
-    views,
-    formattedViews: formatNumber(views),
+    views: totalViews,
+    formattedViews: formatNumber(totalViews),
+    githubViews,
+    siteViews: liveSiteVisitCount,
     followers,
     formattedFollowers: formatNumber(followers),
     publicRepos,

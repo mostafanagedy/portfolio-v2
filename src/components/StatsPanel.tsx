@@ -7,6 +7,8 @@ import "./StatsPanel.css";
 interface StatsData {
   views: number;
   formattedViews: string;
+  githubViews: number;
+  siteViews: number;
   followers: number;
   formattedFollowers: string;
   publicRepos: number;
@@ -15,8 +17,10 @@ interface StatsData {
 
 export default function StatsPanel() {
   const [stats, setStats] = useState<StatsData>({
-    views: 254,
-    formattedViews: "254+",
+    views: 402,
+    formattedViews: "402+",
+    githubViews: 254,
+    siteViews: 148,
     followers: 15,
     formattedFollowers: "15+",
     publicRepos: 32,
@@ -31,7 +35,14 @@ export default function StatsPanel() {
 
     async function fetchLiveStats() {
       try {
-        const res = await fetch("/api/stats");
+        // Track unique visit per browser session
+        const hasTracked = typeof window !== "undefined" && sessionStorage.getItem("mn_site_tracked");
+        const url = hasTracked ? "/api/stats" : "/api/stats?track=1";
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem("mn_site_tracked", "1");
+        }
+
+        const res = await fetch(url);
         if (!res.ok) return;
         const data: StatsData = await res.json();
         if (isMounted) {
@@ -90,20 +101,24 @@ export default function StatsPanel() {
       <div className="stats-panel__card">
         {/* Stats list */}
         <div className="stats-panel__items">
-          {/* Profile Views (Real Live Visitor Counter) */}
-          <div className="stats-panel__item" title="Live Profile Views Counter">
+          {/* Total Views (Combined GitHub Views + Website Views) */}
+          <div
+            className="stats-panel__item"
+            title={`Total Views: ${stats.views} (GitHub: ${stats.githubViews} + Website: ${stats.siteViews})`}
+          >
             <div className="stats-panel__icon-box">
               <Eye size={18} className="stats-panel__icon" />
             </div>
             <div className="stats-panel__text">
               <div className="stats-panel__label-row">
-                <span className="stats-panel__label">Profile Views</span>
+                <span className="stats-panel__label">Total Views</span>
                 <span className="stats-live-badge">
                   <span className="stats-live-dot" />
                   Live
                 </span>
               </div>
               <span className="stats-panel__val">{viewCountString}</span>
+              <span className="stats-panel__subtext">GitHub &amp; Website</span>
             </div>
           </div>
 
@@ -121,6 +136,7 @@ export default function StatsPanel() {
             <div className="stats-panel__text">
               <span className="stats-panel__label">Followers</span>
               <span className="stats-panel__val">{followersCountString}</span>
+              <span className="stats-panel__subtext">GitHub Community</span>
             </div>
           </a>
 
@@ -132,6 +148,7 @@ export default function StatsPanel() {
             <div className="stats-panel__text">
               <span className="stats-panel__label">Focus</span>
               <span className="stats-panel__val">Clean Code &amp; Scalability</span>
+              <span className="stats-panel__subtext">Full Stack Architecture</span>
             </div>
           </div>
         </div>

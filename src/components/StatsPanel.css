@@ -137,6 +137,15 @@
   transition: color var(--transition);
 }
 
+.stats-panel__subtext {
+  font-size: 0.60rem;
+  color: var(--color-text-muted);
+  opacity: 0.8;
+  white-space: nowrap;
+  line-height: 1.1;
+  margin-top: 1px;
+}
+
 /* Slanted script text in warm gold */
 .stats-panel__opportunity {
   display: flex;
