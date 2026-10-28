@@ -26,7 +26,7 @@ export const projects: Project[] = [
     id: 2,
     title: "Portfolio Website",
     description: "Personal portfolio & interactive showcase featuring glassmorphic UI, smooth micro-interactions, theme switching, and responsive design.",
-    url: "https://portoflio-lime.vercel.app",
+    url: "https://mostafanagedy.vercel.app",
     github: "https://github.com/mostafanagedy",
     image: "/images/project-portfolio.png",
     categories: ["Frontend"],

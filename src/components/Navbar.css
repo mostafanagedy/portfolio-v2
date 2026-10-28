@@ -132,121 +132,115 @@
 }
 
 /* ===== THEME TOGGLE — Glowing Pill ===== */
+/* ===== THEME TOGGLE — Glowing Pill ===== */
 .navbar__theme-toggle {
   position: relative;
   display: flex;
   align-items: center;
-  width: 64px;
-  height: 30px;
+  width: 66px;
+  height: 32px;
   border-radius: 100px;
   background: rgba(10, 14, 22, 0.85);
-  border: 1px solid rgba(255, 161, 22, 0.35);
+  border: 1px solid rgba(74, 144, 217, 0.35);
   padding: 0;
   cursor: pointer;
   transition: border-color var(--transition), box-shadow var(--transition);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .navbar__theme-toggle:hover {
-  border-color: rgba(255, 161, 22, 0.65);
-  box-shadow: 0 0 14px rgba(255, 161, 22, 0.22), inset 0 1px 0 rgba(255,255,255,0.05);
+  border-color: rgba(74, 144, 217, 0.65);
+  box-shadow: 0 0 14px rgba(74, 144, 217, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 /* Sliding thumb — glowing circle */
 .navbar__theme-thumb {
   position: absolute;
   top: 3px;
-  left: 3px;
+  left: 4px;
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  /* Dark mode default: Moon is active → blue thumb on RIGHT */
+  /* Dark mode default: Moon active → blue glowing thumb on RIGHT */
   background: radial-gradient(circle at 40% 38%, #4A90D9, #1A6FC4);
   box-shadow:
     0 0 10px rgba(74, 144, 217, 0.75),
-    0 0 22px rgba(74, 144, 217, 0.40),
+    0 0 20px rgba(74, 144, 217, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.30);
-  transform: translateX(34px);
+  transform: translateX(32px);
   transition: transform 0.30s cubic-bezier(0.4, 0, 0.2, 1),
               background 0.30s ease,
               box-shadow 0.30s ease;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
 }
 
-/* In light mode: Sun is active → orange thumb on LEFT */
-[data-theme="light"] .navbar__theme-thumb {
+/* In light mode: Sun active → orange glowing thumb on LEFT */
+[data-theme="light"] .navbar__theme-thumb,
+.navbar__theme-toggle--light .navbar__theme-thumb {
   transform: translateX(0px);
   background: radial-gradient(circle at 40% 38%, #FFB340, #FF9500);
   box-shadow:
     0 0 10px rgba(255, 149, 0, 0.75),
-    0 0 22px rgba(255, 149, 0, 0.40),
+    0 0 20px rgba(255, 149, 0, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.30);
-  color: rgba(80, 40, 0, 0.90);
+  color: #ffffff;
 }
 
-/* Sun icon slot — LEFT */
+/* Track icon slots */
 .navbar__theme-icon {
   position: absolute;
+  top: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  z-index: 3;
+  z-index: 1;
   pointer-events: none;
   transition: opacity 0.25s ease, color 0.25s ease;
 }
 
-/* Sun icon slot — LEFT (dimmed in dark mode, active/under thumb in light mode) */
+/* Sun slot — LEFT (dimmed in dark mode, hidden under thumb in light mode) */
 .navbar__theme-icon--sun {
-  left: 3px;
-  color: rgba(140, 100, 40, 0.45);
-  opacity: 0.50;
+  left: 4px;
+  color: #FFA116;
+  opacity: 0.45;
 }
 
-/* Moon icon slot — RIGHT (active/under blue thumb in dark mode, dimmed in light mode) */
+/* Moon slot — RIGHT (hidden under thumb in dark mode to prevent double icon, dimmed in light mode) */
 .navbar__theme-icon--moon {
-  right: 5px;
-  color: rgba(200, 220, 255, 0.90);
-  opacity: 0.95;
+  right: 4px;
+  color: #79B8FF;
+  opacity: 0;
 }
 
-/* Light mode: sun is now under the orange thumb (bright), moon is dimmed */
-[data-theme="light"] .navbar__theme-icon--sun {
-  color: rgba(80, 40, 0, 0.90);
-  opacity: 0.95;
+/* Light mode overrides for track icons */
+[data-theme="light"] .navbar__theme-icon--sun,
+.navbar__theme-toggle--light .navbar__theme-icon--sun {
+  opacity: 0;
 }
 
-[data-theme="light"] .navbar__theme-icon--moon {
-  color: rgba(140, 150, 180, 0.45);
-  opacity: 0.50;
+[data-theme="light"] .navbar__theme-icon--moon,
+.navbar__theme-toggle--light .navbar__theme-icon--moon {
+  opacity: 0.45;
 }
 
-/* Dark mode pill: dark bg + blue border (moon active) */
-.navbar__theme-toggle {
-  background: rgba(10, 14, 22, 0.85);
-  border-color: rgba(74, 144, 217, 0.35);
+/* Light mode toggle pill border styling */
+[data-theme="light"] .navbar__theme-toggle,
+.navbar__theme-toggle--light {
+  background: rgba(240, 244, 250, 0.90);
+  border-color: rgba(255, 161, 22, 0.45);
 }
 
-.navbar__theme-toggle:hover {
-  border-color: rgba(74, 144, 217, 0.65);
-  box-shadow: 0 0 14px rgba(74, 144, 217, 0.22), inset 0 1px 0 rgba(255,255,255,0.05);
-}
-
-/* Light mode pill: dark bg + orange border (sun active) */
-[data-theme="light"] .navbar__theme-toggle {
-  background: rgba(10, 14, 22, 0.85);
-  border-color: rgba(255, 161, 22, 0.35);
-}
-
-[data-theme="light"] .navbar__theme-toggle:hover {
-  border-color: rgba(255, 161, 22, 0.65);
-  box-shadow: 0 0 14px rgba(255, 161, 22, 0.22), inset 0 1px 0 rgba(255,255,255,0.05);
+[data-theme="light"] .navbar__theme-toggle:hover,
+.navbar__theme-toggle--light:hover {
+  border-color: rgba(255, 161, 22, 0.75);
+  box-shadow: 0 0 14px rgba(255, 161, 22, 0.22);
 }
 
 .navbar__menu-btn {
@@ -317,9 +311,63 @@
 }
 
 [data-theme="light"] .navbar__mobile-social-btn {
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.85);
   border-color: var(--color-border);
-  color: var(--color-text-secondary);
+  color: #0f172a;
+}
+
+[data-theme="light"] .navbar__mobile-social-btn:hover svg {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+
+[data-theme="light"] .navbar__mobile-social-btn--tiktok:hover {
+  background: #ff0050 !important;
+  border-color: #ff0050 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(255, 0, 80, 0.45);
+}
+
+[data-theme="light"] .navbar__mobile-social-btn--youtube:hover {
+  background: #FF0000 !important;
+  border-color: #FF0000 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(255, 0, 0, 0.45);
+}
+
+[data-theme="light"] .navbar__mobile-social-btn--instagram:hover {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888) !important;
+  border-color: #dc2743 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(220, 39, 67, 0.45);
+}
+
+[data-theme="light"] .navbar__mobile-social-btn--facebook:hover {
+  background: #1877F2 !important;
+  border-color: #1877F2 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(24, 119, 242, 0.45);
+}
+
+[data-theme="light"] .navbar__mobile-social-btn--discord:hover {
+  background: #5865F2 !important;
+  border-color: #5865F2 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(88, 101, 242, 0.45);
+}
+
+[data-theme="light"] .navbar__mobile-social-btn--x:hover {
+  background: #000000 !important;
+  border-color: #000000 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="light"] .navbar__mobile-social-btn--whatsapp:hover {
+  background: #25D366 !important;
+  border-color: #25D366 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.45);
 }
 
 [data-theme="light"] .navbar__mobile-platform-tag {
@@ -399,7 +447,7 @@
   border-radius: var(--radius-sm);
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.09);
-  color: var(--color-text-secondary);
+  color: var(--color-text);
   text-decoration: none;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -409,53 +457,58 @@
   transform: translateY(-2px) scale(1.05);
 }
 
+.navbar__mobile-social-btn:hover svg {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+
 .navbar__mobile-social-btn--tiktok:hover {
-  background: rgba(0, 0, 0, 0.5);
-  border-color: #00f2fe;
-  color: #00f2fe;
-  box-shadow: 0 0 14px rgba(0, 242, 254, 0.4);
+  background: #ff0050 !important;
+  border-color: #ff0050 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(255, 0, 80, 0.45);
 }
 
 .navbar__mobile-social-btn--youtube:hover {
-  background: rgba(255, 0, 0, 0.12);
-  border-color: rgba(255, 0, 0, 0.4);
-  color: #FF0000;
-  box-shadow: 0 0 14px rgba(255, 0, 0, 0.35);
+  background: #FF0000 !important;
+  border-color: #FF0000 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(255, 0, 0, 0.45);
 }
 
 .navbar__mobile-social-btn--instagram:hover {
-  background: rgba(225, 48, 108, 0.12);
-  border-color: rgba(225, 48, 108, 0.4);
-  color: #E1306C;
-  box-shadow: 0 0 14px rgba(225, 48, 108, 0.35);
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888) !important;
+  border-color: #dc2743 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(220, 39, 67, 0.45);
 }
 
 .navbar__mobile-social-btn--facebook:hover {
-  background: rgba(24, 119, 242, 0.12);
-  border-color: rgba(24, 119, 242, 0.4);
-  color: #1877F2;
-  box-shadow: 0 0 14px rgba(24, 119, 242, 0.35);
+  background: #1877F2 !important;
+  border-color: #1877F2 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(24, 119, 242, 0.45);
 }
 
 .navbar__mobile-social-btn--discord:hover {
-  background: rgba(88, 101, 242, 0.12);
-  border-color: rgba(88, 101, 242, 0.4);
-  color: #5865F2;
-  box-shadow: 0 0 14px rgba(88, 101, 242, 0.35);
+  background: #5865F2 !important;
+  border-color: #5865F2 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(88, 101, 242, 0.45);
 }
 
 .navbar__mobile-social-btn--x:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.4);
-  color: #FFFFFF;
-  box-shadow: 0 0 14px rgba(255, 255, 255, 0.25);
+  background: #000000 !important;
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.25);
 }
 
 .navbar__mobile-social-btn--whatsapp:hover {
-  background: rgba(37, 211, 102, 0.14);
-  border-color: rgba(37, 211, 102, 0.4);
-  color: #25D366;
-  box-shadow: 0 0 14px rgba(37, 211, 102, 0.4);
+  background: #25D366 !important;
+  border-color: #25D366 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.45);
 }
 
 /* Mobile Platforms Section */

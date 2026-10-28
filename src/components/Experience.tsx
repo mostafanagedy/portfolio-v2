@@ -56,7 +56,7 @@ const timeline = [
 
 export default function Experience() {
   return (
-    <section id="experience" className="section section--alt">
+    <section id="experience" className="section experience-section" aria-label="Experience and Learning">
       <div className="container">
         <div className="section__header">
           <h2 className="section__title">

@@ -1,5 +1,5 @@
 export const socialLinks = {
-  email: "mstfymajdn7@gmail.com",
+  email: "mostafamagednagedy@gmail.com",
   phone: "01015887140",
   whatsapp: "https://wa.me/201015887140",
   whatsappDisplay: "@Nagedy",
@@ -33,7 +33,7 @@ export const freelancePlatforms = [
 
 export const portfolioLinks = [
   { label: "amazon-ecommerce-main.vercel.app", url: "https://amazon-ecommerce-main.vercel.app" },
-  { label: "portoflio-lime.vercel.app", url: "https://portoflio-lime.vercel.app" },
+  { label: "mostafanagedy.vercel.app", url: "https://mostafanagedy.vercel.app" },
   { label: "e-commerce-f-red.vercel.app", url: "https://e-commerce-f-red.vercel.app" },
 ];
 

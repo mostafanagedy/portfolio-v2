@@ -34,7 +34,8 @@ export default function Hero({ onViewProjects, onContact }: HeroProps) {
             style={{ animationDelay: "0.2s" }}
           >
             <span className="hero__name-primary">Mostafa</span>{" "}
-            <span className="hero__name-accent">Nagdy</span>
+            <span className="hero__name-accent">Nagedy</span>
+            <span className="sr-only"> | مصطفى نجدي (Mostafa Nagdy) - Full Stack &amp; MERN Stack Developer</span>
           </h1>
 
           <p
@@ -107,7 +108,7 @@ export default function Hero({ onViewProjects, onContact }: HeroProps) {
           <div className="hero__workspace-frame hero__workspace-frame--desktop">
             <img
               src="/images/workspace-studio.webp"
-              alt="Mostafa Nagdy in his cinematic developer workspace"
+              alt="Mostafa Nagedy (مصطفى نجدي) in his cinematic developer workspace"
               className="hero__workspace-img"
               width="735"
               height="520"
@@ -121,7 +122,7 @@ export default function Hero({ onViewProjects, onContact }: HeroProps) {
             <div className="hero__mobile-frame">
               <img
                 src="/images/mostafa-nagdy.webp"
-                alt="Mostafa Nagdy"
+                alt="Mostafa Nagedy (مصطفى نجدي) — Full Stack & MERN Stack Developer"
                 className="hero__mobile-img"
                 width="200"
                 height="200"

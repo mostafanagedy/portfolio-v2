@@ -42,7 +42,8 @@ export default function About() {
               <h1 className="about__title">
                 More Than Just <span className="text-accent">Code.</span>
                 <span className="about__title-name">
-                  I'm <span className="text-accent">Mostafa Nagdy</span>
+                  I'm <span className="text-accent">Mostafa Nagedy</span>
+                  <span className="sr-only"> (مصطفى نجدي)</span>
                 </span>
               </h1>
             </div>
@@ -90,7 +91,7 @@ export default function About() {
               <div className="about__portrait-frame">
                 <img
                   src="/images/profile-standing-dark.jpg"
-                  alt="Mostafa Nagdy — MERN Stack Developer (Dark Mode)"
+                  alt="Mostafa Nagedy (مصطفى نجدي) — MERN Stack Developer"
                   className="about__portrait-img about__portrait-img--dark"
                   loading="eager"
                   width="440"
@@ -98,7 +99,7 @@ export default function About() {
                 />
                 <img
                   src="/images/profile-standing-light.jpg"
-                  alt="Mostafa Nagdy — MERN Stack Developer (Light Mode)"
+                  alt="Mostafa Nagedy (مصطفى نجدي) — Full Stack Developer"
                   className="about__portrait-img about__portrait-img--light"
                   loading="eager"
                   width="440"

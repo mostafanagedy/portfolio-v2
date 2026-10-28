@@ -366,5 +366,5 @@ ul {
 
 /* ---------- Section separators ---------- */
 .section--alt {
-  background: var(--color-surface);
+  background: transparent;
 }

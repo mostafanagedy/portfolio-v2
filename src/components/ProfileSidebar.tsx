@@ -47,7 +47,7 @@ export default function ProfileSidebar() {
           href={socialLinks.linkedin} 
           target="_blank" 
           rel="noopener noreferrer" 
-          className="sidebar-row"
+          className="sidebar-row sidebar-row--linkedin"
           title="LinkedIn Profile"
         >
           <div className="sidebar-row__icon-box">
@@ -61,7 +61,7 @@ export default function ProfileSidebar() {
           href={socialLinks.github} 
           target="_blank" 
           rel="noopener noreferrer" 
-          className="sidebar-row"
+          className="sidebar-row sidebar-row--github"
           title="GitHub Profile"
         >
           <div className="sidebar-row__icon-box">

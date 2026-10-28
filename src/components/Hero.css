@@ -205,14 +205,14 @@
   display: block;
 }
 
+
+
 .hero__workspace-lighting {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse 70% 60% at 75% 55%,
-    rgba(255, 161, 22, 0.12) 0%,
-    transparent 65%
-  );
+  background: radial-gradient(ellipse 70% 60% at 75% 55%,
+      rgba(255, 161, 22, 0.12) 0%,
+      transparent 65%);
   pointer-events: none;
 }
 
@@ -309,11 +309,9 @@
   .hero__mobile-glow {
     position: absolute;
     inset: 0;
-    background: radial-gradient(
-      circle at 50% 30%,
-      rgba(255, 161, 22, 0.15) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(circle at 50% 30%,
+        rgba(255, 161, 22, 0.15) 0%,
+        transparent 70%);
     pointer-events: none;
   }
 
@@ -449,4 +447,3 @@
   border-color: rgba(255, 159, 10, 0.45);
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.10), 0 0 20px rgba(255, 159, 10, 0.12);
 }
-

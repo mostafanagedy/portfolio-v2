@@ -172,10 +172,10 @@ npm run start
 
 ## 🌐 Connect with Me
 
-- **Portfolio**: [portoflio-lime.vercel.app](https://portoflio-lime.vercel.app)
+- **Portfolio**: [mostafanagedy.vercel.app](https://mostafanagedy.vercel.app)
 - **LinkedIn**: [/in/mostafa-nagdey](https://www.linkedin.com/in/mostafa-nagdey/)
 - **GitHub**: [@mostafanagedy](https://github.com/mostafanagedy)
-- **Email**: [mstfymajdn7@gmail.com](mailto:mstfymajdn7@gmail.com)
+- **Email**: [mostafamagednagedy@gmail.com](mailto:mostafamagednagedy@gmail.com)
 - **WhatsApp**: [+20 101 588 7140](https://wa.me/201015887140)
 - **YouTube**: [@mostafanagedy](https://www.youtube.com/@mostafanagedy)
 - **Instagram**: [@mostafanagedy](https://www.instagram.com/mostafanagedy/)
