@@ -70,6 +70,20 @@ export default function ProfileSidebar() {
           <span className="sidebar-row__text">github.com/mostafanagedy</span>
           <ExternalLink size={13} className="sidebar-row__arrow" />
         </a>
+
+        <a 
+          href={socialLinks.devto} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="sidebar-row sidebar-row--devto"
+          title="Dev.to Profile"
+        >
+          <div className="sidebar-row__icon-box">
+            <BrandIcons.Devto size={16} />
+          </div>
+          <span className="sidebar-row__text">dev.to/mostafanagedy</span>
+          <ExternalLink size={13} className="sidebar-row__arrow" />
+        </a>
       </div>
 
       {/* Follow Us On (Social Channels) */}

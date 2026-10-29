@@ -190,6 +190,17 @@ export default function Contact() {
                     <span>GitHub Repositories</span>
                     <ExternalLink size={13} className="contact__social-ext" />
                   </a>
+                  <a
+                    href={socialLinks.devto}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="contact__social-item"
+                    title="Visit Dev.to Articles"
+                  >
+                    <BrandIcons.Devto size={16} />
+                    <span>Dev.to Articles</span>
+                    <ExternalLink size={13} className="contact__social-ext" />
+                  </a>
                 </div>
               </div>
 

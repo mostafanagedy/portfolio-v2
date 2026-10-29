@@ -26,7 +26,8 @@ import {
   FaInstagram,
   FaFacebook,
   FaDiscord,
-  FaXTwitter
+  FaXTwitter,
+  FaDev,
 } from "react-icons/fa6";
 import { VscVscode } from "react-icons/vsc";
 import { TbSql } from "react-icons/tb";
@@ -86,6 +87,9 @@ export const BrandIcons = {
   ),
   GitHub: ({ size = 24, color = "currentColor", className = "", style = {} }: IconProps) => (
     <FaGithub size={size} color={color} className={className} style={style} aria-label="GitHub" />
+  ),
+  Devto: ({ size = 24, color = "currentColor", className = "", style = {} }: IconProps) => (
+    <FaDev size={size} color={color} className={className} style={style} aria-label="Dev.to" />
   ),
   LinkedIn: ({ size = 24, color = "#0A66C2", className = "", style = {} }: IconProps) => (
     <FaLinkedin size={size} color={color} className={className} style={style} aria-label="LinkedIn" />

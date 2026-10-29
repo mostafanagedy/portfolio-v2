@@ -5,6 +5,7 @@ export const socialLinks = {
   whatsappDisplay: "@Nagedy",
   linkedin: "https://www.linkedin.com/in/mostafa-nagdey/",
   github: "https://github.com/mostafanagedy",
+  devto: "https://dev.to/mostafanagedy",
   tiktok: "https://www.tiktok.com/@mostafanagedy1?lang=en",
   youtube: "https://www.youtube.com/@mostafanagedy",
   instagram: "https://www.instagram.com/mostafanagedy/",

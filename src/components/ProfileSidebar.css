@@ -110,6 +110,25 @@
   color: #ffffff;
 }
 
+.sidebar-row--devto .sidebar-row__icon-box {
+  color: #ffffff;
+}
+
+.sidebar-row--devto:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.sidebar-row--devto:hover .sidebar-row__icon-box {
+  background: #ffffff;
+  color: #0a0a0a;
+  border-color: #ffffff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.35);
+}
+
+.sidebar-row--devto:hover .sidebar-row__text {
+  color: #ffffff;
+}
+
 .sidebar-row--linkedin:hover .sidebar-row__icon-box {
   background: #0A66C2;
   color: #ffffff;

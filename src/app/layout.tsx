@@ -169,6 +169,7 @@ export default function RootLayout({
         ],
         sameAs: [
           "https://github.com/mostafanagedy",
+          "https://dev.to/mostafanagedy",
           "https://www.linkedin.com/in/mostafa-nagdey/",
           "https://www.upwork.com/freelancers/~0188d9678f43c03685",
           "https://www.freelancer.com/u/Nagedy",
