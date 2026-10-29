@@ -3,6 +3,7 @@ import AnalyticsConsent from "../components/analytics/AnalyticsConsent";
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import MainLayout from "../layouts/MainLayout";
+import { Analytics } from "@vercel/analytics/next";
 import "../index.css";
 
 const inter = Inter({
@@ -245,6 +246,7 @@ export default function RootLayout({
         <MainLayout>{children}</MainLayout>
         <VisitorTracking />
         <AnalyticsConsent />
+        <Analytics />
       </body>
     </html>
   );
