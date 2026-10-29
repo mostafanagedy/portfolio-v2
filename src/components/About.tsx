@@ -11,7 +11,9 @@ import {
   Award,
   Download,
   AlertCircle,
+  Eye,
 } from "lucide-react";
+import CvModal from "./CvModal";
 import "./About.css";
 
 const cards = [
@@ -43,6 +45,7 @@ const cards = [
 
 export default function About() {
   const [cvNotice, setCvNotice] = useState(false);
+  const [isCvModalOpen, setIsCvModalOpen] = useState(false);
 
   const handleCvClick = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     try {
@@ -107,19 +110,29 @@ export default function About() {
                   <ArrowUpRight size={15} aria-hidden="true" />
                 </Link>
 
-                {/* Button 3: Download CV (Secondary Glass CTA with Download Action) */}
-                <a
-                  href="/Mostafa-Nagdy-CV.pdf"
-                  download="Mostafa-Nagdy-CV.pdf"
-                  className="btn about__cta-btn about__cta-btn--secondary about__cta-btn--cv"
-                  onClick={handleCvClick}
-                  aria-label="Download Mostafa Nagdy CV (PDF)"
-                  title="Download CV (PDF)"
-                >
-                  <Download size={16} aria-hidden="true" />
-                  <span>Download CV</span>
-                  <Download size={13} className="about__cta-download-arrow" aria-hidden="true" />
-                </a>
+                {/* Button 3: Preview & Download CV */}
+                <div className="about__cv-btn-cluster">
+                  <button
+                    type="button"
+                    className="btn about__cta-btn about__cta-btn--secondary about__cta-btn--cv"
+                    onClick={() => setIsCvModalOpen(true)}
+                    aria-label="Preview Mostafa Nagdy CV online"
+                    title="Preview CV online"
+                  >
+                    <Eye size={16} aria-hidden="true" />
+                    <span>Preview CV</span>
+                  </button>
+                  <a
+                    href="/Mostafa-Nagdy-CV.pdf"
+                    download="Mostafa-Nagdy-CV.pdf"
+                    className="about__cv-quick-download"
+                    onClick={handleCvClick}
+                    aria-label="Download Mostafa Nagdy CV (PDF)"
+                    title="Download CV (PDF) directly"
+                  >
+                    <Download size={14} aria-hidden="true" />
+                  </a>
+                </div>
               </div>
 
               {/* Informative notice if CV file has not been uploaded yet */}
@@ -198,6 +211,11 @@ export default function About() {
           </div>
         </div>
       </div>
+      {/* Interactive CV Quick Preview Modal */}
+      <CvModal
+        isOpen={isCvModalOpen}
+        onClose={() => setIsCvModalOpen(false)}
+      />
     </section>
   );
 }

@@ -17,17 +17,35 @@ interface StatsResponse {
 let liveSiteVisitCount = 148;
 let cachedStats: { data: StatsResponse; timestamp: number } | null = null;
 const CACHE_TTL_MS = 45 * 1000; // 45 seconds cache
+const trackedIps = new Map<string, number>();
+const TRACK_COOLDOWN_MS = 10 * 60 * 1000; // 10 minutes per IP/client
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const shouldTrack = searchParams.get("track") === "1";
+  const now = Date.now();
 
   if (shouldTrack) {
-    liveSiteVisitCount++;
-    cachedStats = null;
+    const ip =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      request.headers.get("x-real-ip") ||
+      "anonymous";
+    const lastTracked = trackedIps.get(ip);
+
+    if (!lastTracked || now - lastTracked > TRACK_COOLDOWN_MS) {
+      liveSiteVisitCount++;
+      trackedIps.set(ip, now);
+      cachedStats = null;
+
+      // Clean expired IPs periodically
+      if (trackedIps.size > 1000) {
+        for (const [key, time] of trackedIps.entries()) {
+          if (now - time > TRACK_COOLDOWN_MS) trackedIps.delete(key);
+        }
+      }
+    }
   }
 
-  const now = Date.now();
   if (cachedStats && now - cachedStats.timestamp < CACHE_TTL_MS) {
     return NextResponse.json(cachedStats.data);
   }

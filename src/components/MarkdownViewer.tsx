@@ -11,17 +11,6 @@ interface MarkdownViewerProps {
   githubReadmeUrl?: string;
 }
 
-/**
- * Escapes unsafe characters to prevent XSS
- */
-function escapeHtml(text: string): string {
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
 
 /**
  * Sanitizes and cleans raw HTML/Markdown content

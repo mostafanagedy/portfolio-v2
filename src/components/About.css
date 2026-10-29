@@ -134,9 +134,41 @@
   transform: translateY(-2px);
 }
 
-.about__cta-download-arrow {
-  margin-left: -2px;
-  opacity: 0.8;
+/* CV Button Cluster (Preview Button + Quick Download) */
+.about__cv-btn-cluster {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.about__cv-btn-cluster .about__cta-btn--cv {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  padding-right: 12px;
+}
+
+.about__cv-quick-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 42px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-left: none;
+  border-radius: 0 10px 10px 0;
+  color: var(--color-text-secondary);
+  transition: all var(--transition);
+  cursor: pointer;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.about__cv-quick-download:hover {
+  background: var(--color-primary);
+  color: #080B0F;
+  border-color: var(--color-primary);
 }
 
 /* Informative CV Notice when file not yet uploaded */

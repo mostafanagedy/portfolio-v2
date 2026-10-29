@@ -18,7 +18,7 @@ import {
 import { GitHubIcon } from "./Icons";
 import { projects } from "../data/projects";
 import { useGitHubRepos } from "../hooks/useGitHubRepos";
-import { CuratedGitHubRepo, RepoSortOption } from "../types/github";
+import { RepoSortOption } from "../types/github";
 import RepoCard from "./RepoCard";
 import RepoCardSkeleton from "./RepoCardSkeleton";
 import "./FeaturedProjects.css";

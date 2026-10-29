@@ -2,16 +2,14 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
-  Award,
   Download,
   ExternalLink,
   ArrowLeft,
   FileText,
   CheckCircle2,
-  Calendar,
   Layers,
 } from "lucide-react";
-import { getCertificateBySlug, fetchCertificatesFromGitHub } from "../../../lib/certificatesService";
+import { getCertificateBySlug } from "../../../lib/certificatesService";
 import { BrandIcons } from "../../../components/TechIcons";
 import "../certificates.css";
 import "./certificate-detail.css";
@@ -45,7 +43,7 @@ export default async function CertificateDetailPage({ params }: CertificatePageP
     notFound();
   }
 
-  const { title, issuer, category, credentialId, verifyUrl, sizeBytes, format, rawUrl, githubUrl, filename, tags } = cert;
+  const { title, issuer, category, credentialId, verifyUrl, sizeBytes, format, githubUrl, filename } = cert;
 
   const sizeFormatted = sizeBytes > 0
     ? sizeBytes < 1024 * 1024

@@ -93,7 +93,7 @@ export default function CertificateThumbnail({
           thumbnailCache.set(certificate.filename, url);
         }
       })
-      .catch((err) => {
+      .catch((_err) => {
         clearTimeout(safetyTimer);
         if (!isCancelled) {
           setError(true);
