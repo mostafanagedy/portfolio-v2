@@ -92,6 +92,10 @@ export default function MainLayout({ children }: MainLayoutProps) {
     } catch (e) {}
   };
 
+  if (pathname.startsWith("/admin")) {
+    return <>{children}</>;
+  }
+
   return (
     <div className={`portfolio-app-shell ${isHome ? "portfolio-app-shell--home" : ""} ${isContact ? "portfolio-app-shell--contact" : ""}`}>
       {/* Global Cinematic Studio Workspace Ambient Background with Dark Overlay */}
