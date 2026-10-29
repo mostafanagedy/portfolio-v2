@@ -368,3 +368,7 @@ ul {
 .section--alt {
   background: transparent;
 }
+
+
+/* Visitor analytics consent banner */
+.analytics-consent{position:fixed;z-index:9999;left:20px;right:20px;bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:24px;max-width:900px;margin:0 auto;padding:18px 20px;border:1px solid var(--color-border,rgba(255,255,255,.16));border-radius:16px;background:var(--color-surface,#11161d);color:var(--color-text,#f5f7fa);box-shadow:0 18px 60px rgba(0,0,0,.35)}.analytics-consent p{margin:6px 0 0;color:var(--color-text-secondary,#aab3c2);font-size:.86rem;line-height:1.5}.analytics-consent__actions{display:flex;gap:8px;flex-shrink:0}.analytics-consent__actions button{padding:10px 12px;border-radius:9px;border:1px solid var(--color-border,rgba(255,255,255,.2));background:transparent;color:inherit;cursor:pointer}.analytics-consent__actions button:last-child{background:var(--color-primary,#ffa116);border-color:var(--color-primary,#ffa116);color:#111;font-weight:700}@media(max-width:650px){.analytics-consent{left:12px;right:12px;bottom:12px;display:block}.analytics-consent__actions{margin-top:14px}.analytics-consent__actions button{flex:1}}
