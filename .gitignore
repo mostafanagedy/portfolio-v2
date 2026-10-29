@@ -11,7 +11,6 @@ node_modules/
 
 # Environment files
 .env*.local
-.env
 
 # Logs
 logs/
@@ -23,7 +22,6 @@ pnpm-debug.log*
 lerna-debug.log*
 
 # Editor directories and files
-.vscode/*
 !.vscode/extensions.json
 .idea/
 .DS_Store
@@ -36,3 +34,4 @@ lerna-debug.log*
 # Agent artifacts
 .agents/
 *.tsbuildinfo
+config.bat
