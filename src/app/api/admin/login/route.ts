@@ -4,6 +4,10 @@ import { ADMIN_COOKIE_NAME, createAdminSession, verifyAdminPassword } from "@/li
 export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
+  const origin = request.headers.get("origin");
+  if (origin && origin !== request.nextUrl.origin) {
+    return NextResponse.json({ error: "Invalid request origin." }, { status: 403 });
+  }
   const contentLength = Number(request.headers.get("content-length") || 0);
   if (contentLength > 2048) return NextResponse.json({ error: "Request too large." }, { status: 413 });
 
