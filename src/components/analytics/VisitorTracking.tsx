@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Analytics } from "@vercel/analytics/next";
 
 const SESSION_KEY = "nagedy_visitor_session";
@@ -37,15 +37,19 @@ async function track(eventName: string, path: string) {
 
 export default function VisitorTracking() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const [analyticsAllowed, setAnalyticsAllowed] = useState(false);
   const previousPath = useRef<string | null>(null);
 
   useEffect(() => {
-    if (localStorage.getItem("nagedy_analytics_consent") === "accepted" && pathname && previousPath.current !== pathname) {
+    setAnalyticsAllowed(localStorage.getItem("nagedy_analytics_consent") === "accepted");
+  }, []);
+
+  useEffect(() => {
+    if (analyticsAllowed && pathname && previousPath.current !== pathname) {
       previousPath.current = pathname;
       void track("page_view", pathname);
     }
-  }, [pathname, searchParams]);
+  }, [pathname, analyticsAllowed]);
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
@@ -67,7 +71,5 @@ export default function VisitorTracking() {
     return () => document.removeEventListener("click", handleClick, true);
   }, [pathname]);
 
-  const [consent, setConsent] = [null, null] as const;
-  void consent; void setConsent;
-  return <Analytics />;
+  return analyticsAllowed ? <Analytics /> : null;
 }
