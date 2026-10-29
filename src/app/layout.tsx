@@ -88,7 +88,7 @@ export const metadata: Metadata = {
     description:
       "الموقع الرسمي للمهندس مصطفى نجدي (Mostafa Nagedy) - مطور MERN Stack وواجهات أمامية متقدمة.",
     images: ["/images/mostafa-nagdy.webp"],
-    creator: "@nagedy010",
+    creator: "@mostafanagedy",
   },
   robots: {
     index: true,
@@ -177,10 +177,10 @@ export default function RootLayout({
           "https://nafezly.com/u/mostafa_nagedy",
           "https://kafiil.com/u/mostafa_Nagedy",
           "https://khamsat.com/user/mostafa_nagedy",
-          "https://x.com/nagedy010",
+          "https://x.com/mostafanagedy",
           "https://www.youtube.com/@mostafanagedy",
           "https://www.instagram.com/mostafanagedy/",
-          "https://www.facebook.com/mostafa.nagedy.2025",
+          "https://www.facebook.com/mostafanagedyy/",
           "https://www.tiktok.com/@mostafanagedy1?lang=en"
         ],
       },
