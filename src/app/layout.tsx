@@ -1,5 +1,6 @@
 import VisitorTracking from "../components/analytics/VisitorTracking";
 import AnalyticsConsent from "../components/analytics/AnalyticsConsent";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import MainLayout from "../layouts/MainLayout";
@@ -245,6 +246,7 @@ export default function RootLayout({
         <MainLayout>{children}</MainLayout>
         <VisitorTracking />
         <AnalyticsConsent />
+        <Analytics />
       </body>
     </html>
   );

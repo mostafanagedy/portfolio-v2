@@ -1,4 +1,15 @@
 import { MongoClient, type Db } from "mongodb";
+import dns from "node:dns";
+
+// Certain local environments and ISP routers on Windows fail on SRV lookups (ECONNREFUSED).
+// Setting reliable DNS resolvers in development prevents connection timeouts.
+if (process.env.NODE_ENV !== "production" && typeof dns.setServers === "function") {
+  try {
+    dns.setServers(["8.8.8.8", "1.1.1.1"]);
+  } catch {
+    // Graceful fallback
+  }
+}
 
 const uri = process.env.MONGODB_URI;
 const dbName = process.env.MONGODB_DB || "nagedy_portfolio";
