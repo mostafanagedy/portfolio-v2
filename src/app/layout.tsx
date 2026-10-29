@@ -1,3 +1,5 @@
+import VisitorTracking from "../components/analytics/VisitorTracking";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import MainLayout from "../layouts/MainLayout";
@@ -241,6 +243,8 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <MainLayout>{children}</MainLayout>
+        <Analytics />
+        <VisitorTracking />
       </body>
     </html>
   );
