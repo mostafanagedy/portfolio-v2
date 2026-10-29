@@ -1,14 +1,15 @@
 import { MetadataRoute } from "next";
+import { projects } from "../data/projects";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://mostafanagedy.vercel.app";
   const now = new Date();
 
-  return [
+  const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
       lastModified: now,
-      changeFrequency: "monthly",
+      changeFrequency: "weekly",
       priority: 1.0,
     },
     {
@@ -48,4 +49,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
   ];
+
+  const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
+    url: `${baseUrl}/projects/${project.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.75,
+  }));
+
+  return [...staticRoutes, ...projectRoutes];
 }
+

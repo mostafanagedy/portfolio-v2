@@ -23,17 +23,29 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "Mostafa Nagedy | مصطفى نجدي - Full Stack Developer",
+    default: "Mostafa Nagedy | مصطفى نجدي - Full Stack & MERN Developer",
     template: "%s | Mostafa Nagedy (مصطفى نجدي)",
   },
   description:
-    "الموقع الرسمي للمهندس مصطفى نجدي (Mostafa Nagedy / Mostafa Nagdy) - مهندس برمجيات ومطور ويب متكامل (Full Stack & MERN Stack Developer). استكشف أحدث مشاريع الويب وتطبيقات React وNode.js.",
+    "الموقع الرسمي للمهندس مصطفى نجدي (Mostafa Nagedy / Mostafa Nagdy / Mostafa Najdy / نجدي) - مهندس برمجيات ومطور ويب متكامل (Full Stack & MERN Stack Developer). تصفح المشاريع والشهادات وتواصل مباشرة.",
   keywords: [
     "مصطفى نجدي",
+    "مصطفي نجدي",
+    "نجدي",
+    "المهندس مصطفى نجدي",
+    "المهندس مصطفي نجدي",
     "Mostafa Nagedy",
     "Mostafa Nagdy",
-    "نجدي",
+    "Mostafa Najdy",
     "Nagedy",
+    "Nagdy",
+    "Najdy",
+    "mostafanagedy",
+    "mostafanagdy",
+    "mostafanajdy",
+    "mostafanagedy najdy",
+    "موقع مصطفى نجدي",
+    "موقع مصطفي نجدي",
     "MERN Stack Developer",
     "Frontend Specialist",
     "Full Stack Developer",
@@ -55,7 +67,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Mostafa Nagedy | مصطفى نجدي - Full Stack Developer",
     description:
-      "الموقع الرسمي للمهندس مصطفى نجدي (Mostafa Nagedy) - مطور MERN Stack وواجهات أمامية. بناء تطبيقات ويب عصرية وسريعة بأحدث التقنيات.",
+      "الموقع الرسمي للمهندس مصطفى نجدي (Mostafa Nagedy / Mostafa Nagdy) - مطور MERN Stack وواجهات أمامية. بناء تطبيقات ويب عصرية وسريعة بأحدث التقنيات.",
     url: "https://mostafanagedy.vercel.app",
     siteName: "Mostafa Nagedy Portfolio | معرض أعمال مصطفى نجدي",
     images: [
@@ -112,17 +124,29 @@ export default function RootLayout({
         name: "Mostafa Nagedy",
         alternateName: [
           "مصطفى نجدي",
-          "Mostafa Nagdy",
+          "مصطفي نجدي",
           "نجدي",
-          "مستفي نجدي"
+          "المهندس مصطفى نجدي",
+          "المهندس مصطفي نجدي",
+          "Mostafa Nagdy",
+          "Mostafa Najdy",
+          "Nagedy",
+          "Nagdy",
+          "Najdy",
+          "mostafanagedy",
+          "mostafanagdy",
+          "mostafanajdy",
+          "mostafanagedy najdy"
         ],
         givenName: "Mostafa",
         familyName: "Nagedy",
         url: "https://mostafanagedy.vercel.app",
         image: "https://mostafanagedy.vercel.app/images/mostafa-nagdy.webp",
         jobTitle: "MERN Stack Developer & Full Stack Developer",
+        disambiguatingDescription:
+          "Official personal portfolio and website of Mostafa Nagedy (مصطفى نجدي / مصطفي نجدي), also known as Mostafa Nagdy, Mostafa Najdy, Nagedy, or Nagdy. Egyptian Software Engineer and Full Stack / MERN Stack Developer.",
         description:
-          "Mostafa Nagedy (مصطفى نجدي) is a Full Stack & MERN Stack Developer and Frontend Specialist building modern, high-performance web applications with React, Next.js, Node.js, and MongoDB.",
+          "Mostafa Nagedy (مصطفى نجدي / مصطفي نجدي) is a Full Stack & MERN Stack Developer and Frontend Specialist building modern, high-performance web applications with React, Next.js, Node.js, and MongoDB.",
         alumniOf: {
           "@type": "CollegeOrUniversity",
           name: "Sohag University",
@@ -160,16 +184,34 @@ export default function RootLayout({
         ],
       },
       {
+        "@type": "WebSite",
+        "@id": "https://mostafanagedy.vercel.app/#website",
+        url: "https://mostafanagedy.vercel.app",
+        name: "Mostafa Nagedy Portfolio | موقع مصطفى نجدي",
+        alternateName: [
+          "Mostafa Nagedy",
+          "Mostafa Nagdy",
+          "Mostafa Najdy",
+          "مصطفى نجدي",
+          "مصطفي نجدي",
+          "نجدي",
+          "Nagedy",
+          "Nagdy",
+          "Najdy",
+          "mostafanagedy"
+        ],
+        description: "Official portfolio website of Mostafa Nagedy (مصطفى نجدي / مصطفي نجدي)",
+        publisher: {
+          "@id": "https://mostafanagedy.vercel.app/#person",
+        },
+      },
+      {
         "@type": "ProfilePage",
         "@id": "https://mostafanagedy.vercel.app/#profilepage",
         url: "https://mostafanagedy.vercel.app",
         name: "Mostafa Nagedy | مصطفى نجدي - Full Stack Developer",
         isPartOf: {
-          "@type": "WebSite",
           "@id": "https://mostafanagedy.vercel.app/#website",
-          url: "https://mostafanagedy.vercel.app",
-          name: "Mostafa Nagedy Portfolio | معرض أعمال مصطفى نجدي",
-          description: "Official portfolio website of Mostafa Nagedy (مصطفى نجدي)",
         },
         mainEntity: {
           "@id": "https://mostafanagedy.vercel.app/#person",

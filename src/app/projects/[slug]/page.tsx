@@ -65,7 +65,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!details) {
     return {
-      title: "Project Not Found | Mostafa Nagdy",
+      title: "Project Not Found | Mostafa Nagedy (مصطفى نجدي)",
       description: "The requested project or repository could not be found.",
     };
   }
@@ -74,15 +74,40 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const description =
     details.curatedProject?.description ||
     details.repo.description ||
-    `Explore ${details.repo.name} repository by Mostafa Nagdy.`;
+    `Explore ${details.repo.name} repository and live project by Mostafa Nagedy (مصطفى نجدي / Mostafa Nagdy).`;
 
   return {
-    title: `${title} | Projects | Mostafa Nagdy`,
+    title: `${title} | Projects | Mostafa Nagedy (مصطفى نجدي)`,
     description,
+    keywords: [
+      title,
+      "Mostafa Nagedy",
+      "Mostafa Nagdy",
+      "مصطفى نجدي",
+      "مصطفي نجدي",
+      "نجدي",
+      "MERN Stack Project",
+      "Web Development Portfolio",
+    ],
+    alternates: {
+      canonical: `https://mostafanagedy.vercel.app/projects/${slug}`,
+    },
     openGraph: {
-      title: `${title} | Mostafa Nagdy`,
+      title: `${title} | Mostafa Nagedy (مصطفى نجدي)`,
       description,
+      url: `https://mostafanagedy.vercel.app/projects/${slug}`,
       type: "website",
+      images: [
+        {
+          url:
+            (typeof details.screenshot === "string"
+              ? details.screenshot
+              : details.screenshot?.url) || "/images/mostafa-nagdy.webp",
+          width: 1200,
+          height: 630,
+          alt: `${title} — Project by Mostafa Nagedy (مصطفى نجدي)`,
+        },
+      ],
     },
   };
 }

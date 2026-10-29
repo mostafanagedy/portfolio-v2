@@ -24,14 +24,41 @@ export async function generateMetadata({ params }: CertificatePageProps): Promis
 
   if (!cert) {
     return {
-      title: "Certificate Not Found | Mostafa Nagdy",
+      title: "Certificate Not Found | Mostafa Nagedy (مصطفى نجدي)",
       description: "The requested certificate could not be located.",
     };
   }
 
   return {
-    title: `${cert.title} | Certificates | Mostafa Nagdy`,
-    description: `View verified certificate for ${cert.title} issued by ${cert.issuer}.`,
+    title: `${cert.title} | Certificates | Mostafa Nagedy (مصطفى نجدي)`,
+    description: `View verified certificate for ${cert.title} issued by ${cert.issuer} to Mostafa Nagedy (مصطفى نجدي / Mostafa Nagdy).`,
+    keywords: [
+      cert.title,
+      cert.issuer,
+      "Mostafa Nagedy",
+      "Mostafa Nagdy",
+      "مصطفى نجدي",
+      "مصطفي نجدي",
+      "نجدي",
+      "Verified Certificate",
+    ],
+    alternates: {
+      canonical: `https://mostafanagedy.vercel.app/certificates/${slug}`,
+    },
+    openGraph: {
+      title: `${cert.title} — ${cert.issuer} | Mostafa Nagedy (مصطفى نجدي)`,
+      description: `Verified credential for ${cert.title} issued by ${cert.issuer}.`,
+      url: `https://mostafanagedy.vercel.app/certificates/${slug}`,
+      type: "website",
+      images: [
+        {
+          url: "/images/mostafa-nagdy.webp",
+          width: 1200,
+          height: 630,
+          alt: `${cert.title} — Mostafa Nagedy (مصطفى نجدي)`,
+        },
+      ],
+    },
   };
 }
 
